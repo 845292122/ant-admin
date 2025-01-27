@@ -1,4 +1,4 @@
-const Perm = () => {
+const Perm: React.FC = () => {
   return (
     <div>
       <h1>Perm</h1>
