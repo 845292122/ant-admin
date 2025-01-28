@@ -1,4 +1,4 @@
-import { Down, Up } from '@icon-park/react'
+import { Down, Refresh, Search, Up } from '@icon-park/react'
 import { Button, Col, DatePicker, Form, Input, Row, Select, Space } from 'antd'
 import React from 'react'
 
@@ -66,29 +66,33 @@ const QueryForm: React.FC<QueryFormProps> = ({ fields, onSearch, onReset }) => {
         ))}
 
         {/* 占位符，确保展开/收起按钮始终对齐 */}
-        <Col flex="auto" />
+        {fields.length > 3 && <Col flex="auto" />}
 
         {/* 操作按钮（搜索、重置、展开/收起） */}
         <Col>
-          <Space>
-            <Button onClick={handleReset}>重置</Button>
-            <Button type="primary" onClick={handleSearch}>
-              搜索
-            </Button>
-            {fields.length > 3 && (
-              <Button type="link" onClick={() => setExpanded(!expanded)}>
-                {expanded ? (
-                  <>
-                    收起 <Up theme="outline" size="14" fill="#1677FF" />
-                  </>
-                ) : (
-                  <>
-                    展开 <Down theme="outline" size="14" fill="#1677FF" />
-                  </>
-                )}
+          <Form.Item>
+            <Space>
+              <Button onClick={handleReset} icon={<Refresh theme="outline" size="16" fill="#333" />}>
+                重置
               </Button>
-            )}
-          </Space>
+              <Button type="primary" onClick={handleSearch} icon={<Search theme="outline" size="16" fill="#fff" />}>
+                搜索
+              </Button>
+              {fields.length > 3 && (
+                <Button type="link" onClick={() => setExpanded(!expanded)}>
+                  {expanded ? (
+                    <>
+                      收起 <Up theme="outline" size="14" fill="#1677FF" />
+                    </>
+                  ) : (
+                    <>
+                      展开 <Down theme="outline" size="14" fill="#1677FF" />
+                    </>
+                  )}
+                </Button>
+              )}
+            </Space>
+          </Form.Item>
         </Col>
       </Row>
     </Form>

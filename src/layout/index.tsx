@@ -27,7 +27,7 @@ const AppLayout = () => {
       </Sider>
       <Layout>
         <AppHeader />
-        <Content style={{ padding: '20' }}>
+        <Content style={{ padding: '30px' }}>
           <Outlet />
         </Content>
       </Layout>
