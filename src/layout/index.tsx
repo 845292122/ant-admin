@@ -22,7 +22,7 @@ const AppLayout = () => {
 
   return (
     <Layout className={styles.appContainer}>
-      <Sider collapsed={!navCollapsed} width={220}>
+      <Sider collapsed={!navCollapsed} width={230}>
         <AppNav collapsed={navCollapsed} />
       </Sider>
       <Layout>

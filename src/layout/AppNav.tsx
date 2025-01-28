@@ -10,7 +10,7 @@ import { createStyles } from 'antd-style'
 
 type MenuItem = Required<MenuProps>['items'][number]
 
-const useStyles = createStyles(({ token }) => {
+const useStyles = createStyles(() => {
   return {
     logoContainer: {
       padding: '10px 0',
