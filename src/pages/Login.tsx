@@ -9,7 +9,7 @@ const useStyles = createStyles(() => {
   return {
     loginContainer: {
       position: 'relative',
-      width: '100wh',
+      width: '100vw',
       height: '100vh'
     },
     loginBackground: {

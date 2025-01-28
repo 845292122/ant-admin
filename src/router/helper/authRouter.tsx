@@ -21,7 +21,7 @@ export function findRoute(pathname: string, routes: Array<RouteType> = []): Rout
  */
 const AuthRouter = ({ children }: { children: JSX.Element }) => {
   const token = useAtomValue(authJotai.tokenAtom)
-  const permissions = useAtomValue(authJotai.permissionsAtom)
+  const perms = useAtomValue(authJotai.permAtom)
 
   // * 找到当前路由的 meta 信息
   const { pathname } = useLocation()
@@ -36,7 +36,7 @@ const AuthRouter = ({ children }: { children: JSX.Element }) => {
   }
 
   // * 需要有权限才能访问
-  if (route.meta.permission && !permissions?.includes(route.meta.permission)) {
+  if (route.meta.perm && !perms?.includes(route.meta.perm)) {
     return <Navigate to="/403" />
   }
 

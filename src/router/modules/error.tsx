@@ -1,6 +1,5 @@
 import React from 'react'
 import Layout from '~/layout'
-// import lazyLoad from '../helper/lazyLoad'
 import { RouteType } from '..'
 import lazyLoad from '../helper/lazyLoad'
 

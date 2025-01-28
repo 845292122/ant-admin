@@ -5,7 +5,7 @@ export type RouteMetaType = {
   title: string
   key: string
   requireAuth?: boolean
-  permission?: string
+  perm?: string
   hidden?: boolean
   icon?: React.ReactNode
 }
