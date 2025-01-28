@@ -5,4 +5,5 @@ const navCollapsedAtom = atom(true)
 const appJotai = {
   navCollapsedAtom
 }
+
 export { appJotai }
