@@ -17,7 +17,7 @@ const CommonRoutes: RouteType[] = [
           key: '/',
           requireAuth: true,
           perm: 'home',
-          icon: <HomeTwo theme="outline" size="18" fill="#333" />
+          icon: <HomeTwo theme="outline" size="18" strokeLinecap="square" />
         }
       },
       {
@@ -28,7 +28,7 @@ const CommonRoutes: RouteType[] = [
           key: '/profile',
           requireAuth: true,
           perm: 'profile',
-          icon: <HomeTwo theme="outline" size="18" fill="#333" />
+          icon: <HomeTwo theme="outline" size="18" strokeLinecap="square" />
         }
       }
     ]
