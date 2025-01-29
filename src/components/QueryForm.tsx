@@ -72,10 +72,17 @@ const QueryForm: React.FC<QueryFormProps> = ({ fields, onSearch, onReset }) => {
         <Col>
           <Form.Item>
             <Space>
-              <Button onClick={handleReset} icon={<Refresh theme="outline" size="16" fill="#333" />}>
+              <Button
+                onClick={handleReset}
+                icon={<Refresh theme="outline" size="16" fill="#333" />}
+              >
                 重置
               </Button>
-              <Button type="primary" onClick={handleSearch} icon={<Search theme="outline" size="16" fill="#fff" />}>
+              <Button
+                type="primary"
+                onClick={handleSearch}
+                icon={<Search theme="outline" size="16" fill="#fff" />}
+              >
                 搜索
               </Button>
               {fields.length > 3 && (

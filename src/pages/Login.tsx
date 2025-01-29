@@ -45,7 +45,8 @@ const useStyles = createStyles(() => {
       justifyContent: 'center',
       alignItems: 'center',
       flex: '1',
-      background: 'linear-gradient(39deg, rgba(0, 78, 167, 1) 0%, rgba(2, 119, 252, 1) 29%, rgba(178, 214, 255, 1) 100%)'
+      background:
+        'linear-gradient(39deg, rgba(0, 78, 167, 1) 0%, rgba(2, 119, 252, 1) 29%, rgba(178, 214, 255, 1) 100%)'
     },
     formContainer: {
       flex: '1',
@@ -70,7 +71,10 @@ const LoginForm: React.FC = () => {
           <Input placeholder="手机号" prefix={<Phone theme="outline" size="16" fill="#333" />} />
         </Form.Item>
         <Form.Item name="password" rules={[{ required: true, message: '请输入密码' }]}>
-          <Input.Password placeholder="请输入密码" prefix={<Key theme="outline" size="16" fill="#333" />} />
+          <Input.Password
+            placeholder="请输入密码"
+            prefix={<Key theme="outline" size="16" fill="#333" />}
+          />
         </Form.Item>
         <Form.Item name="remember" valuePropName="checked" style={{ marginBottom: '1px' }}>
           <Checkbox>保持登录</Checkbox>

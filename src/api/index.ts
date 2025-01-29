@@ -32,7 +32,10 @@ service.interceptors.response.use(
     const { code = 200, msg, data } = response.data
 
     // 文件对象直接返回
-    if (response.request.responseType === 'blob' || response.request.responseType === 'arraybuffer') {
+    if (
+      response.request.responseType === 'blob' ||
+      response.request.responseType === 'arraybuffer'
+    ) {
       return response.data
     }
 

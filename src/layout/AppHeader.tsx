@@ -89,9 +89,21 @@ const AppHeader: React.FC = () => {
           type="text"
           icon={
             collapseMenu ? (
-              <MenuUnfoldOne theme="outline" size="20" fill="#020202" strokeWidth={3} strokeLinecap="square" />
+              <MenuUnfoldOne
+                theme="outline"
+                size="20"
+                fill="#020202"
+                strokeWidth={3}
+                strokeLinecap="square"
+              />
             ) : (
-              <MenuFoldOne theme="outline" size="20" fill="#020202" strokeWidth={3} strokeLinecap="square" />
+              <MenuFoldOne
+                theme="outline"
+                size="20"
+                fill="#020202"
+                strokeWidth={3}
+                strokeLinecap="square"
+              />
             )
           }
           onClick={toggleCollapseMenu}
