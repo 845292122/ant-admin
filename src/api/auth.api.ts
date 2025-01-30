@@ -1,4 +1,4 @@
-import service from '~/api/index'
+import service from '.'
 
 const baseURL = '/auth'
 

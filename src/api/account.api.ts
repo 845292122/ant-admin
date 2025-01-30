@@ -1,4 +1,4 @@
-import service from '..'
+import service from '.'
 
 const baseURL = '/account'
 

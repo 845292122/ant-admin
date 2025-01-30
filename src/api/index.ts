@@ -109,5 +109,5 @@ export class Request {
 export default new Request()
 
 // * 导出api模块
-export * from './modules/auth'
-export * from './modules/account'
+export * from './account.api'
+export * from './auth.api'

@@ -3,7 +3,7 @@ import { Menu, MenuProps } from 'antd'
 import { useAtomValue } from 'jotai'
 import React from 'react'
 import { useLocation, useNavigate } from 'react-router'
-import { bizRoutes } from '~/router'
+import BizRoutes from '~/router/routes'
 import { authJotai } from '~/store'
 import AppLogo from '~/assets/react.svg'
 import { createStyles } from 'antd-style'
@@ -107,7 +107,7 @@ const AppNav: React.FC<{ collapsed: boolean }> = ({ collapsed }) => {
       })
     }
 
-    const filterMenuList = filterAndConvertMenuByPerms(bizRoutes, perms)
+    const filterMenuList = filterAndConvertMenuByPerms(BizRoutes, perms)
     setMenuList(filterMenuList)
   }, [perms])
 
