@@ -1,5 +1,6 @@
 import { Down, Refresh, Search, Up } from '@icon-park/react'
 import { Button, Col, DatePicker, Form, Input, Row, Select, Space } from 'antd'
+import type { FormInstance } from 'antd'
 import React from 'react'
 
 export type QueryFormField = {
@@ -13,10 +14,10 @@ type QueryFormProps = {
   fields: QueryFormField[]
   onSearch: (values: unknown) => void
   onReset?: () => void
+  form: FormInstance
 }
 
-const QueryForm: React.FC<QueryFormProps> = ({ fields, onSearch, onReset }) => {
-  const [form] = Form.useForm()
+const QueryForm: React.FC<QueryFormProps> = ({ fields, onSearch, onReset, form }) => {
   const [expanded, setExpanded] = React.useState<boolean>(false)
   const visibleFields = expanded ? fields : fields.slice(0, 3)
 
