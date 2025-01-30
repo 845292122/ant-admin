@@ -3,7 +3,7 @@ import { Menu, MenuProps } from 'antd'
 import { useAtomValue } from 'jotai'
 import React from 'react'
 import { useLocation, useNavigate } from 'react-router'
-import { bizRoutes, RouteType } from '~/router'
+import { bizRoutes } from '~/router'
 import { authJotai } from '~/store'
 import AppLogo from '~/assets/react.svg'
 import { createStyles } from 'antd-style'
@@ -75,7 +75,10 @@ const AppNav: React.FC<{ collapsed: boolean }> = ({ collapsed }) => {
   }, [pathname, collapsed])
 
   React.useEffect(() => {
-    const filterAndConvertMenuByPerms = (routes: RouteType[], perms: string[]): MenuItem[] => {
+    const filterAndConvertMenuByPerms = (
+      routes: RouteType.RouteInfo[],
+      perms: string[]
+    ): MenuItem[] => {
       return routes.flatMap(route => {
         if (route.children) {
           const filteredChildren = filterAndConvertMenuByPerms(route.children, perms)

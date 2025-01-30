@@ -1,5 +1,10 @@
-export namespace ACCOUNT {
-  export type AccountInfo = {
+declare namespace ApiType {
+  type Auth = {
+    phone: string
+    password: string
+  }
+
+  type Account = {
     id: number
     contact: string
     phone: string

@@ -46,6 +46,7 @@ const QueryForm: React.FC<QueryFormProps> = ({ fields, onSearch, onReset }) => {
             sm={field.type === 'dateRange' ? 24 : 12}
             md={field.type === 'dateRange' ? 12 : 8}
             lg={field.type === 'dateRange' ? 8 : 6}
+            key={field.name}
           >
             <Form.Item name={field.name} label={field.label} className="mb-0">
               {/* 输入框 */}

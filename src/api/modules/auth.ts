@@ -1,10 +1,9 @@
 import service from '~/api/index'
-import { AUTH } from '~/types/auth'
 
 const baseURL = '/auth'
 
-const login = (data: AUTH.LoginInfo) => service.post(`${baseURL}/login`, data)
-const getInfo = (data: AUTH.LoginInfo) => service.post(`${baseURL}/login`, data)
+const login = (data: ApiType.Auth) => service.post(`${baseURL}/login`, data)
+const getInfo = (id: number) => service.get(`${baseURL}/info/${id}`)
 
 const authApi = {
   login,

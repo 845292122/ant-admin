@@ -14,7 +14,7 @@ service.interceptors.request.use(
   (request: InternalAxiosRequestConfig) => {
     const token = useAtomValue(authJotai.tokenAtom)
     if (token) {
-      request.headers['Authorization'] = token
+      request.headers['Authorization'] = 'Bearer ' + token
     }
 
     return request
@@ -29,7 +29,7 @@ service.interceptors.request.use(
  */
 service.interceptors.response.use(
   (response: AxiosResponse) => {
-    const { code = 200, msg, data } = response.data
+    const { data } = response.data
 
     // 文件对象直接返回
     if (
@@ -39,31 +39,31 @@ service.interceptors.response.use(
       return response.data
     }
 
-    /**
-     * TODO: 异常处理 + 弹窗显示错误
-     * 1. 401
-     * 2. 403
-     * 3. !== 200
-     * 4. default(200)
-     */
-    if (code === 401) {
-    } else if (code === 403) {
-    } else if (code !== 200) {
-    } else {
-      return Promise.resolve(data)
-    }
+    return Promise.resolve(data)
   },
   (error: AxiosError) => {
-    let { message } = error
-    if (message == 'Network Error') {
-      message = '后端接口连接异常'
-    } else if (message.includes('timeout')) {
-      message = '系统接口请求超时'
-    } else if (message.includes('Request failed with status code')) {
-      message = '系统接口' + message.substr(message.length - 3) + '异常'
+    const { status, message } = error
+
+    let errMsg: string
+
+    // * 错误处理
+    if (status === 401) {
+      errMsg = message ?? '登录失效，请重新登录'
+    } else if (status === 403) {
+      errMsg = message ?? '权限不足，请联系管理员'
+    } else {
+      if (message == 'Network Error') {
+        errMsg = '后端接口连接异常'
+      } else if (message.includes('timeout')) {
+        errMsg = '系统接口请求超时'
+      } else if (message.includes('Request failed with status code')) {
+        errMsg = '系统接口' + message.substr(message.length - 3) + '异常'
+      }
+      errMsg = '请求失败，请联系管理员'
     }
+
     // TODO: 弹窗显示错误
-    return Promise.reject(error)
+    return Promise.reject(errMsg)
   }
 )
 

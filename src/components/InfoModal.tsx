@@ -1,5 +1,9 @@
-import { DatePicker, Form, Input, message, Modal, Radio, Select } from 'antd'
+import { DatePicker, Form, Input, Modal, Radio, Select, Row, Col } from 'antd'
 import { Rule } from 'antd/es/form'
+
+export type GenerateFormValues<T extends InfoModalFieldType[]> = {
+  [K in T[number]['name']]: unknown
+}
 
 export type InfoModalFieldType = {
   name: string
@@ -7,81 +11,79 @@ export type InfoModalFieldType = {
   type: 'text' | 'select' | 'radio' | 'date'
   options?: Array<{ label: string; value: string | number }>
   rules?: Array<Rule>
+  span?: number
 }
 
-type InfoModalProps = {
+type InfoModalProps<T extends InfoModalFieldType[]> = {
   visible: boolean
   onClose: () => void
-  onSubmit: (values: unknown) => void
+  onSubmit: (values: GenerateFormValues<T>) => void
   initialValues?: Record<string, unknown>
   fields: InfoModalFieldType[]
   data?: Record<string, unknown>
   title?: string
 }
 
-// TODO: form表单格式改为两列
-const InfoModal: React.FC<InfoModalProps> = ({
+const InfoModal = <T extends InfoModalFieldType[]>({
   visible,
   initialValues,
   fields,
   onSubmit,
   title,
   onClose
-}) => {
+}: InfoModalProps<T>): React.ReactElement => {
   const [form] = Form.useForm()
-  const [messageApi, contextHolder] = message.useMessage()
 
   const handleOk = () => {
-    form
-      .validateFields()
-      .then(values => {
-        onSubmit(values)
-      })
-      .catch(err => messageApi.error(err))
+    form.validateFields().then(values => onSubmit(values))
   }
 
   return (
     <>
-      {contextHolder}
       <Modal
         title={title}
         open={visible}
-        width={600}
+        width={800}
         destroyOnClose
         onOk={handleOk}
         onCancel={onClose}
         maskClosable={false}
       >
-        <Form form={form} layout="vertical" initialValues={initialValues} clearOnDestroy>
-          {fields.map(field => (
-            <Form.Item
-              key={field.name}
-              name={field.name}
-              label={field.label}
-              rules={field.rules || []}
-            >
-              {field.type === 'text' && <Input placeholder={`请输入${field.label}`} />}
-              {field.type === 'select' && (
-                <Select placeholder={`请选择${field.label}`} allowClear>
-                  {field.options?.map(option => (
-                    <Select.Option key={option.value} value={option.value}>
-                      {option.label}
-                    </Select.Option>
-                  ))}
-                </Select>
-              )}
-              {field.type === 'radio' && (
-                <Radio.Group>
-                  {field.options?.map(option => (
-                    <Radio key={option.value} value={option.value}>
-                      {option.label}
-                    </Radio>
-                  ))}
-                </Radio.Group>
-              )}
-              {field.type === 'date' && <DatePicker style={{ width: '100%' }} />}
-            </Form.Item>
-          ))}
+        <Form
+          form={form}
+          layout="vertical"
+          initialValues={initialValues}
+          clearOnDestroy
+          autoComplete="off"
+        >
+          <Row gutter={24}>
+            {fields.map(field => (
+              <Col span={field.span ?? 12} key={field.name}>
+                <Form.Item name={field.name} label={field.label} rules={field.rules ?? []}>
+                  {field.type === 'text' && <Input placeholder={`请输入${field.label}`} />}
+                  {field.type === 'select' && (
+                    <Select placeholder={`请选择${field.label}`} allowClear>
+                      {field.options?.map(option => (
+                        <Select.Option key={option.value} value={option.value}>
+                          {option.label}
+                        </Select.Option>
+                      ))}
+                    </Select>
+                  )}
+                  {field.type === 'radio' && (
+                    <Radio.Group>
+                      {field.options?.map(option => (
+                        <Radio key={option.value} value={option.value}>
+                          {option.label}
+                        </Radio>
+                      ))}
+                    </Radio.Group>
+                  )}
+                  {field.type === 'date' && <DatePicker style={{ width: '100%' }} />}
+                </Form.Item>
+              </Col>
+            ))}
+          </Row>
         </Form>
       </Modal>
     </>
