@@ -1,11 +1,10 @@
 import { AddOne } from '@icon-park/react'
-import { Button, Space, Table, TableProps } from 'antd'
+import { Button, message, Space, Table, TableProps } from 'antd'
 import React from 'react'
-import InfoModal, { InfoModalFieldType } from '~/components/InfoModal'
+import { accountApi } from '~/api'
+import InfoModal, { GenerateFormValues, InfoModalFieldType } from '~/components/InfoModal'
 import QueryForm, { QueryFormField } from '~/components/QueryForm'
-import { ACCOUNT } from '~/types/account'
-
-const testData: ACCOUNT.AccountInfo[] = []
+import { useAntdTable } from 'ahooks'
 
 const queryFormFields: QueryFormField[] = [
   {
@@ -47,7 +46,8 @@ const queryFormFields: QueryFormField[] = [
   }
 ]
 
-const tableColumns: TableProps<ACCOUNT.AccountInfo>['columns'] = [
+// * 数据表格项
+const tableColumns: TableProps<ApiType.Account>['columns'] = [
   {
     title: 'ID',
     dataIndex: 'id',
@@ -116,7 +116,7 @@ const tableColumns: TableProps<ACCOUNT.AccountInfo>['columns'] = [
   }
 ]
 
-// * 新增编辑表单项配置
+// * 编辑表单项
 const infoFields: InfoModalFieldType[] = [
   {
     name: 'contact',
@@ -147,6 +147,11 @@ const infoFields: InfoModalFieldType[] = [
     type: 'text'
   },
   {
+    name: 'remark',
+    label: '备注',
+    type: 'text'
+  },
+  {
     name: 'bizType',
     label: '业务类型',
     type: 'select',
@@ -160,11 +165,6 @@ const infoFields: InfoModalFieldType[] = [
         value: '1'
       }
     ]
-  },
-  {
-    name: 'remark',
-    label: '备注',
-    type: 'text'
   },
   {
     name: 'status',
@@ -214,7 +214,34 @@ const infoFields: InfoModalFieldType[] = [
 const Account: React.FC = () => {
   const handleSearch = () => {}
   const [infoVisible, setInfoVisible] = React.useState<boolean>(false)
-  const handleSubmitInfo = () => {}
+  const handleSubmitInfo = (values: GenerateFormValues<typeof infoFields>) => {
+    accountApi.create(values).then(() => {
+      message.success('添加成功')
+      setInfoVisible(false)
+    })
+  }
+
+  const getTableData = async ({
+    current,
+    pageSize
+  }: {
+    current: number
+    pageSize: number
+  }): Promise<{
+    total: number
+    list: ApiType.Account[]
+  }> => {
+    const res = await accountApi.page({
+      pageNo: current,
+      pageSize
+    })
+    return {
+      total: res.total,
+      list: res.records.map((record, index) => ({ ...record, key: index }))
+    }
+  }
+
+  const { tableProps } = useAntdTable(getTableData)
 
   return (
     <React.Fragment>
@@ -228,10 +255,10 @@ const Account: React.FC = () => {
           新增
         </Button>
       </Space>
-      <Table columns={tableColumns} dataSource={testData} />
+      <Table columns={tableColumns} {...tableProps} />
 
       {/* TODO 添加编辑删除功能 */}
-      <InfoModal
+      <InfoModal<typeof infoFields>
         fields={infoFields}
         visible={infoVisible}
         onSubmit={handleSubmitInfo}
