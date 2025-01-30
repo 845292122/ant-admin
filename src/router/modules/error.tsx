@@ -1,9 +1,8 @@
 import React from 'react'
 import Layout from '~/layout'
-import { RouteType } from '..'
 import lazyLoad from '../helper/lazyLoad'
 
-const ErrorRoutes: Array<RouteType> = [
+const ErrorRoutes: Array<RouteType.RouteInfo> = [
   {
     element: <Layout />,
     children: [

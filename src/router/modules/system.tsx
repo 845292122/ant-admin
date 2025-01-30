@@ -1,10 +1,9 @@
 import AppLayout from '~/layout'
-import { RouteType } from '..'
 import { SettingTwo } from '@icon-park/react'
 import lazyLoad from '../helper/lazyLoad'
 import React from 'react'
 
-const SystemRoutes: RouteType[] = [
+const SystemRoutes: RouteType.RouteInfo[] = [
   {
     element: <AppLayout />,
     meta: {

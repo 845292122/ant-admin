@@ -1,11 +1,10 @@
 import Home from '~/pages/Home'
-import { RouteType } from '..'
 import AppLayout from '~/layout'
 import { HomeTwo } from '@icon-park/react'
 import lazyLoad from '../helper/lazyLoad'
 import React from 'react'
 
-const CommonRoutes: RouteType[] = [
+const CommonRoutes: RouteType.RouteInfo[] = [
   {
     element: <AppLayout />,
     children: [

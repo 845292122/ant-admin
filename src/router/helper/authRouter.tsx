@@ -1,11 +1,14 @@
 import { Navigate, useLocation } from 'react-router'
-import { routes, RouteType } from '..'
+import { routes } from '..'
 import { useAtomValue } from 'jotai'
 import { authJotai } from '~/store'
 
 // * 根据路由地址查找路由
-export function findRoute(pathname: string, routes: Array<RouteType> = []): RouteType {
-  let result: RouteType = {}
+export function findRoute(
+  pathname: string,
+  routes: Array<RouteType.RouteInfo> = []
+): RouteType.RouteInfo {
+  let result: RouteType.RouteInfo = {}
   for (const route of routes) {
     if (route.path === pathname) return route
     if (route.children) {
