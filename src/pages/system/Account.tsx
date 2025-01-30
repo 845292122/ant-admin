@@ -1,5 +1,5 @@
 import { AddOne } from '@icon-park/react'
-import { Button, message, Space, Table, TableProps } from 'antd'
+import { Button, Form, message, Space, Table, TableProps } from 'antd'
 import React from 'react'
 import { accountApi } from '~/api'
 import InfoModal, { GenerateFormValues, InfoModalFieldType } from '~/components/InfoModal'
@@ -212,6 +212,7 @@ const infoFields: InfoModalFieldType[] = [
 ]
 
 const Account: React.FC = () => {
+  const [form] = Form.useForm()
   const handleSearch = () => {}
   const [infoVisible, setInfoVisible] = React.useState<boolean>(false)
   const handleSubmitInfo = (values: GenerateFormValues<typeof infoFields>) => {
@@ -224,10 +225,7 @@ const Account: React.FC = () => {
   const getTableData = async ({
     current,
     pageSize
-  }: {
-    current: number
-    pageSize: number
-  }): Promise<{
+  }: UtilType.AhookRequestParam): Promise<{
     total: number
     list: ApiType.Account[]
   }> => {
@@ -245,7 +243,7 @@ const Account: React.FC = () => {
 
   return (
     <React.Fragment>
-      <QueryForm fields={queryFormFields} onSearch={handleSearch} />
+      <QueryForm fields={queryFormFields} onSearch={handleSearch} form={form} />
       <Space style={{ marginBottom: 5 }}>
         <Button
           type="primary"
