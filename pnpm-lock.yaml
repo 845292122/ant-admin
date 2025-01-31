@@ -26,6 +26,9 @@ importers:
       axios:
         specifier: ^1.7.9
         version: 1.7.9
+      dayjs:
+        specifier: ^1.11.13
+        version: 1.11.13
       jotai:
         specifier: ^2.11.1
         version: 2.11.1(@types/react@18.3.18)(react@18.3.1)

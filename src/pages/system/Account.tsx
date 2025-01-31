@@ -1,10 +1,11 @@
 import { AddOne } from '@icon-park/react'
-import { Button, Form, message, Space, Table, TableProps } from 'antd'
+import { Button, Form, message, Space, Table, TableProps, Tag } from 'antd'
 import React from 'react'
 import { accountApi } from '~/api'
 import InfoModal, { GenerateFormValues, InfoModalFieldType } from '~/components/InfoModal'
 import QueryForm, { QueryFormField } from '~/components/QueryForm'
 import { useAntdTable } from 'ahooks'
+import dayjs from 'dayjs'
 
 const queryFormFields: QueryFormField[] = [
   {
@@ -52,67 +53,126 @@ const tableColumns: TableProps<ApiType.Account>['columns'] = [
     title: 'ID',
     dataIndex: 'id',
     key: 'id',
+    width: 100,
+    fixed: 'left',
+    align: 'center',
     render: text => <a>{text}</a>
   },
   {
     title: '联系人',
     dataIndex: 'contact',
-    key: 'contact'
+    key: 'contact',
+    width: 100
   },
   {
     title: '手机号',
     dataIndex: 'phone',
-    key: 'phone'
+    key: 'phone',
+    width: 150,
+    align: 'right'
   },
   {
     title: '统一信用代码',
     dataIndex: 'licenseNumber',
-    key: 'licenseNumber'
+    key: 'licenseNumber',
+    width: 150,
+    align: 'right'
   },
   {
     title: '地址',
     dataIndex: 'address',
-    key: 'address'
+    key: 'address',
+    width: 100
   },
   {
     title: '业务类型',
     dataIndex: 'bizType',
-    key: 'bizType'
+    key: 'bizType',
+    width: 120
   },
   {
     title: '备注',
     dataIndex: 'remark',
-    key: 'remark'
+    key: 'remark',
+    width: 100
   },
   {
     title: '管理员',
     dataIndex: 'isAdmin',
-    key: 'isAdmin'
+    key: 'isAdmin',
+    width: 80,
+    align: 'center',
+    render: text => <Tag color={text === 1 ? '#87d068' : '#108ee9'}>{text === 1 ? '是' : '否'}</Tag>
   },
   {
     title: '状态',
     dataIndex: 'status',
-    key: 'status'
+    key: 'status',
+    width: 100,
+    align: 'center',
+    render: text => {
+      const statusMap = {
+        0: { color: 'default', label: '未使用' },
+        1: { color: 'processing', label: '试用中' },
+        2: { color: 'warning', label: '试用结束' },
+        3: { color: 'success', label: '已使用' },
+        4: { color: 'error', label: '已停用' }
+      }
+      const status = statusMap[text as keyof typeof statusMap] || {
+        color: 'default',
+        label: '未知'
+      }
+      return <Tag color={status.color}>{status.label}</Tag>
+    }
   },
   {
     title: '试用开始日期',
     dataIndex: 'trialStartDate',
-    key: 'trialStartDate'
+    key: 'trialStartDate',
+    width: 150,
+    align: 'right',
+    render: text => (text ? dayjs(text).format('YYYY-MM-DD') : '-')
   },
   {
     title: '试用结束日期',
     dataIndex: 'trialEndDate',
-    key: 'trialEndDate'
+    key: 'trialEndDate',
+    width: 150,
+    align: 'right',
+    render: text => (text ? dayjs(text).format('YYYY-MM-DD') : '-')
   },
   {
     title: '正式开始日期',
     dataIndex: 'startDate',
-    key: 'startDate'
+    key: 'startDate',
+    width: 150,
+    align: 'right',
+    render: text => (text ? dayjs(text).format('YYYY-MM-DD') : '-')
   },
   {
     title: '正式结束日期',
     dataIndex: 'endDate',
-    key: 'endDate'
+    key: 'endDate',
+    width: 150,
+    align: 'right',
+    render: text => (text ? dayjs(text).format('YYYY-MM-DD') : '-')
+  },
+  {
+    title: 'Action',
+    key: 'action',
+    fixed: 'right',
+    align: 'center',
+    width: 150,
+    render: () => (
+      <Space size="small">
+        <Button color="blue" variant="link">
+          编辑
+        </Button>
+        <Button color="red" variant="link">
+          删除
+        </Button>
+      </Space>
+    )
   }
 ]
 
@@ -253,7 +313,7 @@ const Account: React.FC = () => {
           新增
         </Button>
       </Space>
-      <Table columns={tableColumns} {...tableProps} />
+      <Table columns={tableColumns} {...tableProps} scroll={{ x: 1900 }} />
 
       {/* TODO 添加编辑删除功能 */}
       <InfoModal<typeof infoFields>
