@@ -97,8 +97,9 @@ const Account: React.FC = () => {
       width: 120,
       render: text => {
         const bizTypeMap = {
-          0: '餐饮',
-          1: '口腔医院'
+          0: '其他',
+          1: '餐饮',
+          2: '口腔医院'
         }
         const bizType = bizTypeMap[text as keyof typeof bizTypeMap] || '-'
         return bizType
@@ -246,12 +247,16 @@ const Account: React.FC = () => {
       type: 'select',
       options: [
         {
-          label: '餐饮',
+          label: '其他',
           value: '0'
         },
         {
-          label: '口腔医院',
+          label: '餐饮',
           value: '1'
+        },
+        {
+          label: '口腔医院',
+          value: '2'
         }
       ]
     },
