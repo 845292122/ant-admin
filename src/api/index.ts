@@ -91,7 +91,7 @@ export class Request {
     return this.service.get(url, config)
   }
 
-  post<T = unknown>(url: string, data: T, config?: AxiosRequestConfig): Promise<T> {
+  post<T = unknown>(url: string, data?: T, config?: AxiosRequestConfig): Promise<T> {
     return this.service.post(url, data, config)
   }
 

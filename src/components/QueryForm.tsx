@@ -22,8 +22,11 @@ const QueryForm: React.FC<QueryFormProps> = ({ fields, onSearch, onReset, form }
   const visibleFields = expanded ? fields : fields.slice(0, 3)
 
   const handleReset = () => {
-    form.resetFields()
-    if (onReset) onReset()
+    if (onReset) {
+      onReset()
+    } else {
+      form.resetFields()
+    }
   }
 
   const handleSearch = () => {

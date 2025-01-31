@@ -1,5 +1,6 @@
 import { DatePicker, Form, Input, Modal, Radio, Select, Row, Col } from 'antd'
 import { Rule } from 'antd/es/form'
+import React from 'react'
 
 export type GenerateFormValues<T extends InfoModalFieldType[]> = {
   [K in T[number]['name']]: unknown
@@ -33,10 +34,15 @@ const InfoModal = <T extends InfoModalFieldType[]>({
   onClose
 }: InfoModalProps<T>): React.ReactElement => {
   const [form] = Form.useForm()
-
   const handleOk = () => {
     form.validateFields().then(values => onSubmit(values))
   }
+
+  React.useEffect(() => {
+    if (visible && initialValues) {
+      form.setFieldsValue(initialValues)
+    }
+  }, [visible, initialValues, form])
 
   return (
     <>
@@ -53,7 +59,7 @@ const InfoModal = <T extends InfoModalFieldType[]>({
           form={form}
           layout="vertical"
           initialValues={initialValues}
-          clearOnDestroy
+          preserve={false}
           autoComplete="off"
         >
           <Row gutter={24}>
@@ -62,13 +68,11 @@ const InfoModal = <T extends InfoModalFieldType[]>({
                 <Form.Item name={field.name} label={field.label} rules={field.rules ?? []}>
                   {field.type === 'text' && <Input placeholder={`请输入${field.label}`} />}
                   {field.type === 'select' && (
-                    <Select placeholder={`请选择${field.label}`} allowClear>
-                      {field.options?.map(option => (
-                        <Select.Option key={option.value} value={option.value}>
-                          {option.label}
-                        </Select.Option>
-                      ))}
-                    </Select>
+                    <Select
+                      placeholder={`请选择${field.label}`}
+                      allowClear
+                      options={field.options}
+                    />
                   )}
                   {field.type === 'radio' && (
                     <Radio.Group>
