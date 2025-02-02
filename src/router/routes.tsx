@@ -33,6 +33,7 @@ const BizRoutes: RouteType.RouteInfo[] = [
       }
     ]
   },
+
   // * 系统业务路由
   {
     element: <AppLayout />,
@@ -45,13 +46,23 @@ const BizRoutes: RouteType.RouteInfo[] = [
     },
     children: [
       {
-        path: '/system/account',
-        element: lazyLoad(React.lazy(() => import('~/pages/system/Account'))),
+        path: '/system/tenant',
+        element: lazyLoad(React.lazy(() => import('~/pages/system/Tenant'))),
         meta: {
-          title: '账户管理',
-          key: '/system/account',
+          title: '租户管理',
+          key: '/system/tenant',
           requireAuth: true,
-          perm: 'system:account'
+          perm: 'system:tenant'
+        }
+      },
+      {
+        path: '/system/user',
+        element: lazyLoad(React.lazy(() => import('~/pages/system/User'))),
+        meta: {
+          title: '用户管理',
+          key: '/system/user',
+          requireAuth: true,
+          perm: 'system:user'
         }
       },
       {
@@ -76,6 +87,7 @@ const BizRoutes: RouteType.RouteInfo[] = [
       }
     ]
   },
+
   // * 错误页面路由
   {
     element: <AppLayout />,

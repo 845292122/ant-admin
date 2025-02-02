@@ -7,7 +7,9 @@ const permAtom = atomWithStorage<string[]>('perm', [
   'system',
   'system:account',
   'system:perm',
-  'system:log'
+  'system:log',
+  'system:user',
+  'system:tenant'
 ])
 
 const authJotai = {
