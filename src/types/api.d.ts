@@ -46,4 +46,44 @@ declare namespace ApiType {
       type?: number
     }
   }
+
+  // * 用户
+  namespace User {
+    type Info = {
+      id?: number
+      tenantId?: number
+      username?: string
+      password?: string
+      contact?: string
+      position?: string
+      phone?: string
+      isTenantAdmin?: number
+      status?: number
+      remark?: string
+      wxId?: string
+      createdAt?: Date
+      updatedAt?: Date
+    }
+    type Search = {
+      username?: string
+      contact?: string
+      status?: number
+    }
+  }
+
+  // * 权限
+  namespace Perm {
+    type Info = {
+      id?: number
+      pId?: number
+      key?: string
+      name?: string
+      status?: number
+    }
+
+    type Search = {
+      name?: string
+      status?: number
+    }
+  }
 }
