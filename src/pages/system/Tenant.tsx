@@ -2,7 +2,7 @@ import { AddOne } from '@icon-park/react'
 import { useAntdTable } from 'ahooks'
 import { Button, Form, message, Popconfirm, Space, Table, TableProps, Tag } from 'antd'
 import dayjs from 'dayjs'
-import React from 'react'
+import React, { useState } from 'react'
 import { tenantApi } from '~/api/tenant.api'
 import InfoModal, { GenerateFormValues, InfoModalFieldType } from '~/components/InfoModal'
 import QueryForm, { QueryFormField } from '~/components/QueryForm'
@@ -308,20 +308,20 @@ const Tenant: React.FC = () => {
     total: number
     list: ApiType.Tenant.Info[]
   }> => {
-    const res = await tenantApi.page({
+    const { total, records } = await tenantApi.page({
       pageNo: current,
       pageSize,
       ...formData
     })
     return {
-      total: res.total,
-      list: res.records.map((record, index) => ({ ...record, key: index }))
+      total,
+      list: records
     }
   }
 
   const [form] = Form.useForm()
-  const [infoVisible, setInfoVisible] = React.useState<boolean>(false)
-  const [initialValues, setInitialValues] = React.useState<Record<string, unknown> | undefined>()
+  const [infoVisible, setInfoVisible] = useState<boolean>(false)
+  const [initialValues, setInitialValues] = useState<Record<string, unknown> | undefined>()
   const { tableProps, refresh, search } = useAntdTable(getTableData, {
     defaultPageSize: 10,
     form
@@ -383,7 +383,7 @@ const Tenant: React.FC = () => {
           新增
         </Button>
       </Space>
-      <Table columns={tableColumns} {...tableProps} scroll={{ x: 2000 }} />
+      <Table columns={tableColumns} {...tableProps} scroll={{ x: 2000 }} rowKey="id" />
 
       <InfoModal<typeof infoFields>
         fields={infoFields}
