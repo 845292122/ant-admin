@@ -2,7 +2,7 @@ import { AddOne } from '@icon-park/react'
 import { useRequest } from 'ahooks'
 import { Button, Form, message, Popconfirm, Space, Table, TableProps } from 'antd'
 import React, { useState } from 'react'
-import { permApi } from '~/api/perm.api'
+import { permApi } from '~/api'
 import InfoModal, { GenerateFormValues, InfoModalFieldType } from '~/components/InfoModal'
 import QueryForm, { QueryFormField } from '~/components/QueryForm'
 
@@ -85,6 +85,12 @@ const Perm: React.FC = () => {
       label: 'ID',
       type: 'text',
       span: 0
+    },
+    {
+      name: 'pId',
+      label: '上级权限',
+      type: 'select',
+      span: 24
     },
     {
       name: 'key',
@@ -182,7 +188,6 @@ const Perm: React.FC = () => {
       <Table
         columns={tableColumns}
         dataSource={Array.isArray(data) ? data : []}
-        scroll={{ x: 2000 }}
         rowKey="id"
         loading={loading}
       />

@@ -3,7 +3,7 @@ import { useAntdTable } from 'ahooks'
 import { Button, Form, message, Popconfirm, Space, Table, TableProps, Tag } from 'antd'
 import dayjs from 'dayjs'
 import React, { useState } from 'react'
-import { tenantApi } from '~/api/tenant.api'
+import { tenantApi } from '~/api'
 import InfoModal, { GenerateFormValues, InfoModalFieldType } from '~/components/InfoModal'
 import QueryForm, { QueryFormField } from '~/components/QueryForm'
 
@@ -298,6 +298,13 @@ const Tenant: React.FC = () => {
       name: 'endDate',
       label: '正式结束日期',
       type: 'date'
+    },
+    // TODO 菜单权限选择,需要改成tree组件形式
+    {
+      name: 'perms',
+      label: '菜单权限',
+      type: 'select',
+      span: 24
     }
   ]
 

@@ -2,7 +2,7 @@ import { AddOne } from '@icon-park/react'
 import { useAntdTable } from 'ahooks'
 import { Button, Form, message, Popconfirm, Space, Table, TableProps, Tag } from 'antd'
 import React, { useState } from 'react'
-import { userApi } from '~/api/user.api'
+import { userApi } from '~/api'
 import InfoModal, { GenerateFormValues, InfoModalFieldType } from '~/components/InfoModal'
 import QueryForm, { QueryFormField } from '~/components/QueryForm'
 
@@ -125,6 +125,14 @@ const User: React.FC = () => {
       type: 'text',
       span: 0
     },
+    // TODO 如果是平台管理员,添加时可以选择属于哪个租户下
+    {
+      name: 'tenantId',
+      label: '租户',
+      type: 'select',
+      options: [],
+      span: 24
+    },
     {
       name: 'username',
       label: '用户名',
@@ -176,6 +184,7 @@ const User: React.FC = () => {
     }
   ]
 
+  // TODO: 树形格式化转换
   const getTableData = async (
     { current, pageSize }: UtilType.AhookRequestParam,
     formData: Object
