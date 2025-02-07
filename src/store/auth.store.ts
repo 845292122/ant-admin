@@ -5,6 +5,7 @@ const accountInfoAtom = atomWithStorage<JotaiType.Auth | undefined>('info', unde
 const permAtom = atomWithStorage<string[]>('perm', [
   'home',
   'system',
+  'profile',
   'system:account',
   'system:perm',
   'system:log',

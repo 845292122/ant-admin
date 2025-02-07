@@ -28,6 +28,7 @@ const BizRoutes: RouteType.RouteInfo[] = [
           key: '/profile',
           requireAuth: true,
           perm: 'profile',
+          hidden: true,
           icon: <HomeTwo theme="outline" size="18" strokeLinecap="square" />
         }
       }
