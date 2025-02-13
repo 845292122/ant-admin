@@ -10,12 +10,12 @@ import QueryForm, { QueryFormField } from '~/components/QueryForm'
 // * 搜索表单项
 const queryFormFields: QueryFormField[] = [
   {
-    name: 'contact',
+    name: 'contactName',
     label: '联系人',
     type: 'input'
   },
   {
-    name: 'company',
+    name: 'companyName',
     label: '公司',
     type: 'input'
   },
@@ -187,15 +187,17 @@ const Tenant: React.FC = () => {
       render: text => <a>{text}</a>
     },
     {
-      title: '联系人',
-      dataIndex: 'contactName',
-      key: 'contactName',
-      width: 100
-    },
-    {
       title: '公司',
       dataIndex: 'companyName',
       key: 'companyName',
+      fixed: 'left',
+      width: 100
+    },
+    {
+      title: '联系人',
+      dataIndex: 'contactName',
+      key: 'contactName',
+      ellipsis: true,
       width: 100
     },
     {
@@ -340,7 +342,7 @@ const Tenant: React.FC = () => {
   const [form] = Form.useForm()
   const [infoVisible, setInfoVisible] = useState<boolean>(false)
   const [initialValues, setInitialValues] = useState<Record<string, unknown> | undefined>()
-  const { tableProps, refresh, search } = useAntdTable(getTableData, {
+  const { tableProps, refresh, search, data } = useAntdTable(getTableData, {
     defaultPageSize: 10,
     form
   })
@@ -395,17 +397,30 @@ const Tenant: React.FC = () => {
         />
       </Card>
 
-      <Card>
-        <Space style={{ marginBottom: 10 }}>
-          <Button
-            type="primary"
-            icon={<AddOne theme="outline" size="16" fill="#fff" />}
-            onClick={createData}
-          >
-            新增
-          </Button>
-        </Space>
-        <Table columns={tableColumns} {...tableProps} scroll={{ x: 2000 }} rowKey="id" />
+      <Card
+        title="租户列表"
+        extra={
+          <Space>
+            <Button
+              type="primary"
+              icon={<AddOne theme="outline" size="16" fill="#fff" />}
+              onClick={createData}
+            >
+              新增
+            </Button>
+          </Space>
+        }
+      >
+        <Table
+          columns={tableColumns}
+          {...tableProps}
+          scroll={{ x: 2000 }}
+          rowKey="id"
+          pagination={{
+            showSizeChanger: true,
+            showTotal: () => `共 ${data?.total} 条`
+          }}
+        />
       </Card>
 
       <InfoModal<typeof infoFields>
