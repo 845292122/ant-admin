@@ -27,7 +27,13 @@ const AppLayout = () => {
       </Sider>
       <Layout>
         <AppHeader />
-        <Content style={{ padding: '30px' }}>
+        <Content
+          style={{
+            padding: '30px',
+            height: '100%',
+            overflow: 'auto'
+          }}
+        >
           <Outlet />
         </Content>
       </Layout>

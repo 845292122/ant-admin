@@ -122,7 +122,7 @@ const User: React.FC = () => {
     {
       name: 'id',
       label: 'ID',
-      type: 'text',
+      type: 'input',
       span: 0
     },
     // TODO 如果是平台管理员,添加时可以选择属于哪个租户下
@@ -136,30 +136,30 @@ const User: React.FC = () => {
     {
       name: 'username',
       label: '用户名',
-      type: 'text',
+      type: 'input',
       rules: [{ required: true, message: '用户名不能为空' }]
     },
     {
       name: 'password',
       label: '密码',
-      type: 'text',
+      type: 'input',
       rules: [{ required: true, message: '密码不能为空' }]
     },
     {
       name: 'contact',
       label: '联系人',
-      type: 'text',
+      type: 'input',
       rules: [{ required: true, message: '联系人不能为空' }]
     },
     {
       name: 'position',
       label: '职位',
-      type: 'text'
+      type: 'input'
     },
     {
       name: 'phone',
       label: '手机号',
-      type: 'text',
+      type: 'input',
       rules: [{ required: true, message: '手机号不能为空' }]
     },
     {
@@ -180,7 +180,7 @@ const User: React.FC = () => {
     {
       name: 'remark',
       label: '备注',
-      type: 'text'
+      type: 'input'
     }
   ]
 

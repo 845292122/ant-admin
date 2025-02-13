@@ -1,4 +1,4 @@
-import { DatePicker, Form, Input, Modal, Radio, Select, Row, Col } from 'antd'
+import { DatePicker, Form, Input, Modal, Radio, Select, Row, Col, InputNumber } from 'antd'
 import { Rule } from 'antd/es/form'
 import React from 'react'
 
@@ -9,10 +9,11 @@ export type GenerateFormValues<T extends InfoModalFieldType[]> = {
 export type InfoModalFieldType = {
   name: string
   label: string
-  type: 'text' | 'select' | 'radio' | 'date'
+  type: 'input' | 'select' | 'radio' | 'date' | 'inputNumber'
   options?: Array<{ label: string; value: string | number }>
   rules?: Array<Rule>
   span?: number
+  props?: Record<string, unknown>
 }
 
 type InfoModalProps<T extends InfoModalFieldType[]> = {
@@ -54,6 +55,9 @@ const InfoModal = <T extends InfoModalFieldType[]>({
         onOk={handleOk}
         onCancel={onClose}
         maskClosable={false}
+        style={{
+          top: 30
+        }}
       >
         <Form
           form={form}
@@ -66,16 +70,20 @@ const InfoModal = <T extends InfoModalFieldType[]>({
             {fields.map(field => (
               <Col span={field.span ?? 12} key={field.name}>
                 <Form.Item name={field.name} label={field.label} rules={field.rules ?? []}>
-                  {field.type === 'text' && <Input placeholder={`请输入${field.label}`} />}
+                  {field.type === 'input' && (
+                    <Input placeholder={`请输入${field.label}`} {...field.props} />
+                  )}
+                  {field.type === 'inputNumber' && <InputNumber {...field.props} />}
                   {field.type === 'select' && (
                     <Select
                       placeholder={`请选择${field.label}`}
                       allowClear
                       options={field.options}
+                      {...field.props}
                     />
                   )}
                   {field.type === 'radio' && (
-                    <Radio.Group>
+                    <Radio.Group {...field.props}>
                       {field.options?.map(option => (
                         <Radio key={option.value} value={option.value}>
                           {option.label}
@@ -83,7 +91,9 @@ const InfoModal = <T extends InfoModalFieldType[]>({
                       ))}
                     </Radio.Group>
                   )}
-                  {field.type === 'date' && <DatePicker style={{ width: '100%' }} />}
+                  {field.type === 'date' && (
+                    <DatePicker style={{ width: '100%' }} {...field.props} />
+                  )}
                 </Form.Item>
               </Col>
             ))}

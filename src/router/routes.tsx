@@ -1,5 +1,5 @@
 import AppLayout from '~/layout'
-import Home from '~/pages/Home'
+import Home from '~/pages/common/home'
 import { HomeTwo, SettingTwo } from '@icon-park/react'
 import React from 'react'
 import lazyLoad from './helper/lazyLoad'
@@ -22,7 +22,7 @@ const BizRoutes: RouteType.RouteInfo[] = [
       },
       {
         path: '/profile',
-        element: lazyLoad(React.lazy(() => import('~/pages/Profile'))),
+        element: lazyLoad(React.lazy(() => import('~/pages/common/profile'))),
         meta: {
           title: '个人中心',
           key: '/profile',
@@ -48,7 +48,7 @@ const BizRoutes: RouteType.RouteInfo[] = [
     children: [
       {
         path: '/system/tenant',
-        element: lazyLoad(React.lazy(() => import('~/pages/system/Tenant'))),
+        element: lazyLoad(React.lazy(() => import('~/pages/system/tenant'))),
         meta: {
           title: '租户管理',
           key: '/system/tenant',
@@ -58,7 +58,7 @@ const BizRoutes: RouteType.RouteInfo[] = [
       },
       {
         path: '/system/user',
-        element: lazyLoad(React.lazy(() => import('~/pages/system/User'))),
+        element: lazyLoad(React.lazy(() => import('~/pages/system/user'))),
         meta: {
           title: '用户管理',
           key: '/system/user',
@@ -67,18 +67,8 @@ const BizRoutes: RouteType.RouteInfo[] = [
         }
       },
       {
-        path: '/system/perm',
-        element: lazyLoad(React.lazy(() => import('~/pages/system/Perm'))),
-        meta: {
-          title: '权限管理',
-          key: '/system/perm',
-          requireAuth: true,
-          perm: 'system:perm'
-        }
-      },
-      {
         path: '/system/log',
-        element: lazyLoad(React.lazy(() => import('~/pages/system/OperLog'))),
+        element: lazyLoad(React.lazy(() => import('~/pages/system/log'))),
         meta: {
           title: '操作日志',
           key: '/system/log',

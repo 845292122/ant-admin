@@ -1,12 +1,13 @@
 import { AddOne } from '@icon-park/react'
 import { useAntdTable } from 'ahooks'
-import { Button, Form, message, Popconfirm, Space, Table, TableProps, Tag } from 'antd'
+import { Button, Card, Form, message, Popconfirm, Space, Table, TableProps, Tag } from 'antd'
 import dayjs from 'dayjs'
 import React, { useState } from 'react'
 import { tenantApi } from '~/api'
 import InfoModal, { GenerateFormValues, InfoModalFieldType } from '~/components/InfoModal'
 import QueryForm, { QueryFormField } from '~/components/QueryForm'
 
+// * 搜索表单项
 const queryFormFields: QueryFormField[] = [
   {
     name: 'contact',
@@ -47,6 +48,132 @@ const queryFormFields: QueryFormField[] = [
   }
 ]
 
+// * 编辑表单项
+const infoFields: InfoModalFieldType[] = [
+  {
+    name: 'id',
+    label: 'ID',
+    type: 'input',
+    span: 0
+  },
+  {
+    name: 'contactName',
+    label: '联系人',
+    type: 'input',
+    rules: [{ required: true, message: '联系人不能为空' }]
+  },
+  {
+    name: 'contactPhone',
+    label: '手机号',
+    type: 'input',
+    rules: [{ required: true, message: '手机号不能为空' }]
+  },
+  {
+    name: 'companyName',
+    label: '公司',
+    type: 'input',
+    rules: [{ required: true, message: '公司不能为空' }]
+  },
+  {
+    name: 'licenseNumber',
+    label: '统一信用代码',
+    type: 'input'
+  },
+  {
+    name: 'address',
+    label: '地址',
+    type: 'input'
+  },
+  {
+    name: 'domain',
+    label: '域名',
+    type: 'input'
+  },
+  {
+    name: 'remark',
+    label: '备注',
+    type: 'input'
+  },
+  {
+    name: 'userCount',
+    label: '最大用户数量',
+    type: 'inputNumber',
+    props: {
+      min: -1,
+      max: 100,
+      defaultValue: 10
+    }
+  },
+  {
+    name: 'status',
+    label: '状态',
+    type: 'select',
+    options: [
+      {
+        label: '未使用',
+        value: '0'
+      },
+      {
+        label: '试用中',
+        value: '1'
+      },
+      {
+        label: '试用结束',
+        value: '2'
+      },
+      {
+        label: '已使用',
+        value: '3'
+      }
+    ]
+  },
+  {
+    name: 'trialStartDate',
+    label: '试用开始日期',
+    type: 'date'
+  },
+  {
+    name: 'trialEndDate',
+    label: '试用结束日期',
+    type: 'date'
+  },
+  {
+    name: 'startDate',
+    label: '正式开始日期',
+    type: 'date'
+  },
+  {
+    name: 'endDate',
+    label: '正式结束日期',
+    type: 'date'
+  },
+  {
+    name: 'isPremium',
+    label: '是否Premium',
+    type: 'radio',
+    props: {
+      defaultValue: 0
+    },
+    options: [
+      {
+        label: '是',
+        value: 1
+      },
+      {
+        label: '否',
+        value: 0
+      }
+    ]
+  },
+  // TODO 菜单权限选择,需要改成tree组件形式
+  {
+    name: 'perms',
+    label: '菜单权限',
+    type: 'select',
+    span: 24
+  }
+]
+
 const Tenant: React.FC = () => {
   // * 数据表格项
   const tableColumns: TableProps<ApiType.Tenant.Info>['columns'] = [
@@ -61,20 +188,20 @@ const Tenant: React.FC = () => {
     },
     {
       title: '联系人',
-      dataIndex: 'contact',
-      key: 'contact',
+      dataIndex: 'contactName',
+      key: 'contactName',
       width: 100
     },
     {
       title: '公司',
-      dataIndex: 'company',
-      key: 'company',
+      dataIndex: 'companyName',
+      key: 'companyName',
       width: 100
     },
     {
       title: '手机号',
-      dataIndex: 'phone',
-      key: 'phone',
+      dataIndex: 'contactPhone',
+      key: 'contactPhone',
       width: 150
     },
     {
@@ -91,18 +218,10 @@ const Tenant: React.FC = () => {
       width: 100
     },
     {
-      title: '租户类型',
-      dataIndex: 'type',
-      key: 'type',
-      width: 120,
-      render: text => {
-        const typeMap = {
-          0: '普通',
-          1: 'VIP'
-        }
-        const type = typeMap[text as keyof typeof typeMap] || '-'
-        return type
-      }
+      title: '域名',
+      dataIndex: 'domain',
+      key: 'domain',
+      width: 100
     },
     {
       title: '备注',
@@ -111,10 +230,10 @@ const Tenant: React.FC = () => {
       width: 100
     },
     {
-      title: '平台管理员',
-      dataIndex: 'isPlatformAdmin',
-      key: 'isPlatformAdmin',
-      width: 80,
+      title: 'Premium租户',
+      dataIndex: 'isPremium',
+      key: 'isPremium',
+      width: 120,
       align: 'center',
       render: text => (
         <Tag color={text === 1 ? '#87d068' : '#108ee9'}>{text === 1 ? '是' : '否'}</Tag>
@@ -200,114 +319,6 @@ const Tenant: React.FC = () => {
     }
   ]
 
-  // * 编辑表单项
-  const infoFields: InfoModalFieldType[] = [
-    {
-      name: 'id',
-      label: 'ID',
-      type: 'text',
-      span: 0
-    },
-    {
-      name: 'contact',
-      label: '联系人',
-      type: 'text',
-      rules: [{ required: true, message: '联系人不能为空' }]
-    },
-    {
-      name: 'phone',
-      label: '手机号',
-      type: 'text',
-      rules: [{ required: true, message: '手机号不能为空' }]
-    },
-    {
-      name: 'company',
-      label: '公司',
-      type: 'text',
-      rules: [{ required: true, message: '公司不能为空' }]
-    },
-    {
-      name: 'licenseNumber',
-      label: '统一信用代码',
-      type: 'text'
-    },
-    {
-      name: 'address',
-      label: '地址',
-      type: 'text'
-    },
-    {
-      name: 'remark',
-      label: '备注',
-      type: 'text'
-    },
-    {
-      name: 'type',
-      label: '租户类型',
-      type: 'select',
-      options: [
-        {
-          label: '普通租户',
-          value: '0'
-        },
-        {
-          label: 'VIP租户',
-          value: '1'
-        }
-      ]
-    },
-    {
-      name: 'status',
-      label: '状态',
-      type: 'select',
-      options: [
-        {
-          label: '未使用',
-          value: '0'
-        },
-        {
-          label: '试用中',
-          value: '1'
-        },
-        {
-          label: '试用结束',
-          value: '2'
-        },
-        {
-          label: '已使用',
-          value: '3'
-        }
-      ]
-    },
-    {
-      name: 'trialStartDate',
-      label: '试用开始日期',
-      type: 'date'
-    },
-    {
-      name: 'trialEndDate',
-      label: '试用结束日期',
-      type: 'date'
-    },
-    {
-      name: 'startDate',
-      label: '正式开始日期',
-      type: 'date'
-    },
-    {
-      name: 'endDate',
-      label: '正式结束日期',
-      type: 'date'
-    },
-    // TODO 菜单权限选择,需要改成tree组件形式
-    {
-      name: 'perms',
-      label: '菜单权限',
-      type: 'select',
-      span: 24
-    }
-  ]
-
   const getTableData = async (
     { current, pageSize }: UtilType.AhookRequestParam,
     formData: object
@@ -375,22 +386,27 @@ const Tenant: React.FC = () => {
 
   return (
     <React.Fragment>
-      <QueryForm
-        fields={queryFormFields}
-        onSearch={search.submit}
-        form={form}
-        onReset={search.reset}
-      />
-      <Space style={{ marginBottom: 5 }}>
-        <Button
-          type="primary"
-          icon={<AddOne theme="outline" size="16" fill="#fff" />}
-          onClick={createData}
-        >
-          新增
-        </Button>
-      </Space>
-      <Table columns={tableColumns} {...tableProps} scroll={{ x: 2000 }} rowKey="id" />
+      <Card style={{ marginBottom: 20 }}>
+        <QueryForm
+          fields={queryFormFields}
+          onSearch={search.submit}
+          form={form}
+          onReset={search.reset}
+        />
+      </Card>
+
+      <Card>
+        <Space style={{ marginBottom: 10 }}>
+          <Button
+            type="primary"
+            icon={<AddOne theme="outline" size="16" fill="#fff" />}
+            onClick={createData}
+          >
+            新增
+          </Button>
+        </Space>
+        <Table columns={tableColumns} {...tableProps} scroll={{ x: 2000 }} rowKey="id" />
+      </Card>
 
       <InfoModal<typeof infoFields>
         fields={infoFields}

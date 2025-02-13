@@ -1,5 +1,5 @@
 import { Navigate, useRoutes } from 'react-router'
-import Login from '~/pages/Login'
+import Login from '~/pages/login'
 import BizRoutes from './routes'
 
 export const routes: RouteType.RouteInfo[] = [
