@@ -31,7 +31,10 @@ const useStyles = createStyles(() => {
     menuContainer: {
       flex: '1',
       marginTop: '4px',
-      overflowY: 'auto'
+      overflowY: 'auto',
+      '.ant-menu-dark .ant-menu-submenu-selected > .ant-menu-submenu-title': {
+        color: '#ffffff !important' // 设置选中的父菜单背景色
+      }
     }
   }
 })
