@@ -417,6 +417,7 @@ const Tenant: React.FC = () => {
           scroll={{ x: 2000 }}
           rowKey="id"
           pagination={{
+            ...tableProps.pagination,
             showSizeChanger: true,
             showTotal: () => `共 ${data?.total} 条`
           }}
