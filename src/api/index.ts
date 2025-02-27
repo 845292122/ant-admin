@@ -69,15 +69,7 @@ export class Request {
             msg = errMsg ?? '权限不足，请联系管理员'
             break
           default:
-            if (errMsg === 'Network Error') {
-              msg = '后端接口连接异常'
-            } else if (errMsg?.includes('timeout')) {
-              msg = '系统接口请求超时'
-            } else if (errMsg?.includes('Request failed with status code')) {
-              msg = '系统接口' + errMsg.substr(errMsg.length - 3) + '异常'
-            } else {
-              msg = '请求失败，请联系管理员'
-            }
+            msg = errMsg ?? 'Internal Server Error'
             break
         }
 
