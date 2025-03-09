@@ -56,14 +56,8 @@ const User: React.FC = () => {
     },
     {
       title: '联系人',
-      dataIndex: 'contact',
-      key: 'contact',
-      width: 100
-    },
-    {
-      title: '职位',
-      dataIndex: 'position',
-      key: 'position',
+      dataIndex: 'nickname',
+      key: 'nickname',
       width: 100
     },
     {
@@ -74,9 +68,10 @@ const User: React.FC = () => {
     },
     {
       title: '管理员',
-      dataIndex: 'isTenantAdmin',
-      key: 'isTenantAdmin',
-      width: 100
+      dataIndex: 'isMaster',
+      key: 'isMaster',
+      width: 100,
+      render: text => (text === 1 ? <Tag color="green">是</Tag> : <Tag color="red">否</Tag>)
     },
     {
       title: '状态',
@@ -142,21 +137,10 @@ const User: React.FC = () => {
       rules: [{ required: true, message: '用户名不能为空' }]
     },
     {
-      name: 'password',
-      label: '密码',
-      type: 'input',
-      rules: [{ required: true, message: '密码不能为空' }]
-    },
-    {
       name: 'nickname',
       label: '联系人',
       type: 'input',
       rules: [{ required: true, message: '联系人不能为空' }]
-    },
-    {
-      name: 'position',
-      label: '职位',
-      type: 'input'
     },
     {
       name: 'phone',
@@ -171,11 +155,11 @@ const User: React.FC = () => {
       options: [
         {
           label: '启用',
-          value: 1
+          value: '1'
         },
         {
           label: '停用',
-          value: 0
+          value: '0'
         }
       ]
     },
