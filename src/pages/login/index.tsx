@@ -64,6 +64,7 @@ const Login: React.FC = () => {
         className={styles.loginBackground}
         colors={['#007FFE', '#3099FE', '#60B2FE', '#90CCFE', '#C0E5FE', '#F0FFFE']}
         loop
+        speed={1}
       />
       <div className={styles.loginBox}>
         <div className={styles.loginCard}>
