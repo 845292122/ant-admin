@@ -8,11 +8,13 @@ const remove = (id: number) => service.post(`${baseURL}/remove/${id}`)
 const page = (params: ApiType.Page.Param & ApiType.Tenant.Search) =>
   service.get<ApiType.Page.Result<ApiType.Tenant.Info>>(`${baseURL}/page`, { params })
 const info = (id: number) => service.get<ApiType.Tenant.Info>(`${baseURL}/info/${id}`)
+const list = () => service.get<ApiType.Tenant.Info[]>(`${baseURL}/list`)
 
 export const tenantApi = {
   create,
   modify,
   remove,
   page,
-  info
+  info,
+  list
 }

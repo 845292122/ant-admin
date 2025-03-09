@@ -22,19 +22,20 @@ declare namespace ApiType {
   namespace Tenant {
     type Info = {
       id?: number
-      contact?: string
-      phone?: string
-      company?: string
+      contactName?: string
+      contactPhone?: string
+      companyName?: string
       licenseNumber?: string
       address?: string
-      type?: number
+      domain?: string
       remark?: string
-      isPlatformAdmin?: boolean
+      userCount?: number
       trialStartDate?: Date
       trialEndDate?: Date
       startDate?: Date
       endDate?: Date
       status?: number
+      isPremium?: number
       createdAt?: Date
       updatedAt?: Date
     }
@@ -51,7 +52,7 @@ declare namespace ApiType {
   namespace User {
     type Info = {
       id?: number
-      tenantId?: number
+      tenantID?: number
       username?: string
       password?: string
       contact?: string

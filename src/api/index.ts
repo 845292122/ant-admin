@@ -38,7 +38,7 @@ export class Request {
     // * 响应拦截器
     this.service.interceptors.response.use(
       (response: AxiosResponse) => {
-        const { data } = response.data
+        const { data } = response
 
         // 文件对象直接返回
         if (

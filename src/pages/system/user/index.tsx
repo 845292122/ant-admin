@@ -1,19 +1,14 @@
 import { AddOne } from '@icon-park/react'
 import { useAntdTable } from 'ahooks'
-import { Button, Form, message, Popconfirm, Space, Table, TableProps, Tag } from 'antd'
+import { Button, Card, Form, message, Popconfirm, Space, Table, TableProps, Tag } from 'antd'
 import React, { useState } from 'react'
-import { userApi } from '~/api'
+import { tenantApi, userApi } from '~/api'
 import InfoModal, { GenerateFormValues, InfoModalFieldType } from '~/components/InfoModal'
 import QueryForm, { QueryFormField } from '~/components/QueryForm'
 
 const queryFormFields: QueryFormField[] = [
   {
-    name: 'username',
-    label: '用户名',
-    type: 'input'
-  },
-  {
-    name: 'contact',
+    name: 'nickname',
     label: '联系人',
     type: 'input'
   },
@@ -35,6 +30,13 @@ const queryFormFields: QueryFormField[] = [
 ]
 
 const User: React.FC = () => {
+  const [form] = Form.useForm()
+  const [infoVisible, setInfoVisible] = useState<boolean>(false)
+  const [initialValues, setInitialValues] = useState<Record<string, unknown> | undefined>()
+  const [tenantOptions, setTenantOptions] = useState<
+    Array<{ label: string; value: string | number }>
+  >([])
+
   // * 数据表格项
   const tableColumns: TableProps<ApiType.User.Info>['columns'] = [
     {
@@ -82,7 +84,7 @@ const User: React.FC = () => {
       key: 'status',
       width: 100,
       align: 'center',
-      render: text => (text === '1' ? <Tag color="green">启用</Tag> : <Tag color="red">停用</Tag>)
+      render: text => (text === 1 ? <Tag color="green">启用</Tag> : <Tag color="red">停用</Tag>)
     },
     {
       title: '备注',
@@ -125,12 +127,12 @@ const User: React.FC = () => {
       type: 'input',
       span: 0
     },
-    // TODO 如果是平台管理员,添加时可以选择属于哪个租户下
+    // TODO 如果是平台管理员,添加时可以选择属于哪个租户下；租户管理员不显示
     {
-      name: 'tenantId',
+      name: 'tenantID',
       label: '租户',
       type: 'select',
-      options: [],
+      options: tenantOptions,
       span: 24
     },
     {
@@ -146,7 +148,7 @@ const User: React.FC = () => {
       rules: [{ required: true, message: '密码不能为空' }]
     },
     {
-      name: 'contact',
+      name: 'nickname',
       label: '联系人',
       type: 'input',
       rules: [{ required: true, message: '联系人不能为空' }]
@@ -169,11 +171,11 @@ const User: React.FC = () => {
       options: [
         {
           label: '启用',
-          value: '1'
+          value: 1
         },
         {
           label: '停用',
-          value: '0'
+          value: 0
         }
       ]
     },
@@ -184,7 +186,6 @@ const User: React.FC = () => {
     }
   ]
 
-  // TODO: 树形格式化转换
   const getTableData = async (
     { current, pageSize }: UtilType.AhookRequestParam,
     formData: Object
@@ -202,10 +203,6 @@ const User: React.FC = () => {
       list: records
     }
   }
-
-  const [form] = Form.useForm()
-  const [infoVisible, setInfoVisible] = useState<boolean>(false)
-  const [initialValues, setInitialValues] = useState<Record<string, unknown> | undefined>()
   const { tableProps, refresh, search } = useAntdTable(getTableData, {
     defaultPageSize: 10,
     form
@@ -225,12 +222,38 @@ const User: React.FC = () => {
   }
 
   const createData = async () => {
+    const tenantList = await tenantApi.list()
+
+    setTenantOptions(
+      tenantList
+        .filter(item => item.id)
+        .map(item => {
+          return {
+            label: item.companyName ?? '',
+            value: item.id as number
+          }
+        })
+    )
+
     setInitialValues(undefined)
     setInfoVisible(true)
   }
 
   const modifyData = async (id: number) => {
     const res = await userApi.info(id)
+    const tenantList = await tenantApi.list()
+
+    setTenantOptions(
+      tenantList
+        .filter(item => item.id)
+        .map(item => {
+          return {
+            label: item.companyName ?? '',
+            value: item.id as number
+          }
+        })
+    )
+
     const formattedData = {
       ...res,
       status: res.status?.toString()
@@ -247,22 +270,31 @@ const User: React.FC = () => {
 
   return (
     <React.Fragment>
-      <QueryForm
-        fields={queryFormFields}
-        onSearch={search.submit}
-        form={form}
-        onReset={search.reset}
-      />
-      <Space style={{ marginBottom: 5 }}>
-        <Button
-          type="primary"
-          icon={<AddOne theme="outline" size="16" fill="#fff" />}
-          onClick={createData}
-        >
-          新增
-        </Button>
-      </Space>
-      <Table columns={tableColumns} {...tableProps} scroll={{ x: 2000 }} rowKey="id" />
+      <Card style={{ marginBottom: 20 }}>
+        <QueryForm
+          fields={queryFormFields}
+          onSearch={search.submit}
+          form={form}
+          onReset={search.reset}
+        />
+      </Card>
+
+      <Card
+        title="用户列表"
+        extra={
+          <Space>
+            <Button
+              type="primary"
+              icon={<AddOne theme="outline" size="16" fill="#fff" />}
+              onClick={createData}
+            >
+              新增
+            </Button>
+          </Space>
+        }
+      >
+        <Table columns={tableColumns} {...tableProps} scroll={{ x: 2000 }} rowKey="id" />
+      </Card>
 
       <InfoModal<typeof infoFields>
         fields={infoFields}

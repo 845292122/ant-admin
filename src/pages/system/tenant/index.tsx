@@ -369,7 +369,6 @@ const Tenant: React.FC = () => {
     const res = await tenantApi.info(id)
     const formattedData = {
       ...res,
-      type: res.type?.toString(),
       status: res.status?.toString(),
       trialStartDate: res.trialStartDate ? dayjs(res.trialStartDate) : undefined,
       trialEndDate: res.trialEndDate ? dayjs(res.trialEndDate) : undefined,
