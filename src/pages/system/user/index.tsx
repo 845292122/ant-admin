@@ -43,7 +43,7 @@ const User: React.FC = () => {
       title: 'ID',
       dataIndex: 'id',
       key: 'id',
-      width: 100,
+      width: 50,
       fixed: 'left',
       align: 'center',
       render: text => <a>{text}</a>
@@ -277,7 +277,7 @@ const User: React.FC = () => {
           </Space>
         }
       >
-        <Table columns={tableColumns} {...tableProps} scroll={{ x: 2000 }} rowKey="id" />
+        <Table columns={tableColumns} {...tableProps} scroll={{ x: 800 }} rowKey="id" />
       </Card>
 
       <InfoModal<typeof infoFields>
