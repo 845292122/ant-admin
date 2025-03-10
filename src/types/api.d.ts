@@ -13,7 +13,7 @@ declare namespace ApiType {
 
   namespace Auth {
     type Login = {
-      username: string
+      phone: string
       password: string
     }
   }

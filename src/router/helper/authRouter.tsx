@@ -25,9 +25,14 @@ export function findRoute(
 const AuthRouter = ({ children }: { children: JSX.Element }) => {
   const token = useAtomValue(authJotai.tokenAtom)
   const perms = useAtomValue(authJotai.permAtom)
+  const { pathname } = useLocation()
+
+  // * 如果token存在并且访问login页面跳转到 /
+  if (token && pathname === '/login') {
+    return <Navigate to="/" replace />
+  }
 
   // * 找到当前路由的 meta 信息
-  const { pathname } = useLocation()
   const route = findRoute(pathname, routes)
 
   // * 不需要认证,直接放行

@@ -83,11 +83,11 @@ export class Request {
     return this.service.get(url, config)
   }
 
-  post<T = unknown>(url: string, data?: T, config?: AxiosRequestConfig): Promise<T> {
+  post<T = unknown>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
     return this.service.post(url, data, config)
   }
 
-  put<T = unknown>(url: string, data: T, config?: AxiosRequestConfig): Promise<T> {
+  put<T = unknown>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
     return this.service.put(url, data, config)
   }
 

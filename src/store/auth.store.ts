@@ -13,10 +13,8 @@ const permAtom = atomWithStorage<string[]>('perm', [
   'system:tenant'
 ])
 
-const authJotai = {
+export const authJotai = {
   tokenAtom,
   accountInfoAtom,
   permAtom
 }
-
-export { authJotai }

@@ -1,7 +1,12 @@
 import { Key, Phone, PhoneTwo, TencentQq, Wechat } from '@icon-park/react'
-import { Button, Checkbox, Divider, Form, Input } from 'antd'
+import { Button, Divider, Form, FormProps, Input, message } from 'antd'
 import { createStyles } from 'antd-style'
+import { useSetAtom } from 'jotai'
 import React from 'react'
+import { useNavigate } from 'react-router'
+import { authApi } from '~/api'
+import { authJotai } from '~/store'
+import { _localStorage } from '~/utils'
 
 const useStyles = createStyles(() => {
   return {
@@ -14,10 +19,21 @@ const useStyles = createStyles(() => {
 
 const LoginForm: React.FC = () => {
   const { styles } = useStyles()
+  const [form] = Form.useForm()
+  const navigate = useNavigate()
+  const setToken = useSetAtom(authJotai.tokenAtom)
+
+  const handleLogin: FormProps<ApiType.Auth.Login>['onFinish'] = async values => {
+    const tokenVal = await authApi.login(values)
+    setToken(tokenVal)
+    navigate('/')
+    message.success('登录成功')
+  }
+
   return (
     <div style={{ minWidth: '300px' }}>
       <h1>欢迎使用</h1>
-      <Form name="login" autoComplete="off">
+      <Form name="login" form={form} autoComplete="off" onFinish={handleLogin}>
         <Form.Item name="phone" rules={[{ required: true, message: '请输入手机号' }]}>
           <Input placeholder="手机号" prefix={<Phone theme="outline" size="16" fill="#333" />} />
         </Form.Item>
@@ -26,9 +42,6 @@ const LoginForm: React.FC = () => {
             placeholder="请输入密码"
             prefix={<Key theme="outline" size="16" fill="#333" />}
           />
-        </Form.Item>
-        <Form.Item name="remember" valuePropName="checked" style={{ marginBottom: '1px' }}>
-          <Checkbox>保持登录</Checkbox>
         </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
