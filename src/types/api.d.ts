@@ -16,6 +16,8 @@ declare namespace ApiType {
       phone: string
       password: string
     }
+
+    type Info = User.Info & {}
   }
 
   // * 租户

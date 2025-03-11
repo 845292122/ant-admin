@@ -38,8 +38,9 @@ const AuthRouter = ({ children }: { children: JSX.Element }) => {
   // * 不需要认证,直接放行
   if (!route.meta?.requireAuth) return children
 
+  debugger
   // * 需要认证才能访问
-  if (!token) {
+  if (!token || token === undefined) {
     return <Navigate to="/login" replace />
   }
 

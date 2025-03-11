@@ -22,10 +22,13 @@ const LoginForm: React.FC = () => {
   const [form] = Form.useForm()
   const navigate = useNavigate()
   const setToken = useSetAtom(authJotai.tokenAtom)
+  const setAuthInfo = useSetAtom(authJotai.authInfoAtom)
 
   const handleLogin: FormProps<ApiType.Auth.Login>['onFinish'] = async values => {
     const tokenVal = await authApi.login(values)
     setToken(tokenVal)
+    const authInfo = await authApi.getInfo()
+    setAuthInfo(authInfo)
     navigate('/')
     message.success('登录成功')
   }

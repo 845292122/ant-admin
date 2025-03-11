@@ -1,11 +1,13 @@
-import { Down, Logout, MenuFoldOne, MenuUnfoldOne, PersonalPrivacy } from '@icon-park/react'
-import { Avatar, Button, Dropdown, MenuProps, Typography } from 'antd'
+import { LogoutOutlined, ProfileTwoTone } from '@ant-design/icons'
+import { Down, MenuFoldOne, MenuUnfoldOne } from '@icon-park/react'
+import { Avatar, Button, Dropdown, MenuProps, message, Typography } from 'antd'
 import { createStyles } from 'antd-style'
-import { useAtom } from 'jotai'
+import { useAtom, useSetAtom } from 'jotai'
+import { RESET } from 'jotai/utils'
 import React from 'react'
 import { useNavigate } from 'react-router'
 import { useRouteMeta } from '~/hooks/useRouteMeta'
-import { appJotai } from '~/store'
+import { appJotai, authJotai } from '~/store'
 
 const useStyles = createStyles(() => {
   return {
@@ -44,20 +46,34 @@ const useStyles = createStyles(() => {
 const ActionBar: React.FC = () => {
   const { styles } = useStyles()
   const navigate = useNavigate()
+  const setToken = useSetAtom(authJotai.tokenAtom)
+  const setAuthInfo = useSetAtom(authJotai.authInfoAtom)
+  const setPerms = useSetAtom(authJotai.permAtom)
+
   const toProfile = () => {
     navigate('/profile')
   }
 
+  const logout = () => {
+    setToken(RESET)
+    setAuthInfo(RESET)
+    setPerms(RESET)
+    navigate('/login')
+    message.success('注销成功')
+  }
+
   const items: MenuProps['items'] = [
     {
-      key: '1',
+      key: 'profile',
       label: '个人信息',
-      icon: <PersonalPrivacy theme="outline" size="16" fill="#381c1c" strokeLinecap="square" />,
+      icon: <ProfileTwoTone style={{ fontSize: '16px' }} />,
       onClick: toProfile
     },
     {
-      key: '4',
-      icon: <Logout theme="outline" size="16" fill="#381c1c" strokeLinecap="square" />,
+      key: 'logout',
+      icon: <LogoutOutlined style={{ fontSize: '16px' }} />,
+      danger: true,
+      onClick: logout,
       label: '注销登录'
     }
   ]
