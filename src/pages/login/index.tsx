@@ -1,15 +1,18 @@
 import { createStyles } from 'antd-style'
 import React from 'react'
-import { AmbientLightBg } from 'react-color4bg'
 import loginIll from '~/assets/login/login-ill.svg'
 import LoginForm from './LoginForm'
+import LoginBg from '~/assets/login/login-bg.png'
 
 const useStyles = createStyles(() => {
   return {
     loginContainer: {
       position: 'relative',
       width: '100vw',
-      height: '100vh'
+      height: '100vh',
+      backgroundImage: `url(${LoginBg})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center'
     },
     loginBackground: {
       position: 'absolute',
@@ -31,8 +34,8 @@ const useStyles = createStyles(() => {
       alignItems: 'center'
     },
     loginCard: {
-      minWidth: '900px',
-      minHeight: '450px',
+      minWidth: '800px',
+      minHeight: '400px',
       margin: 'auto',
       background: 'white',
       display: 'flex',
@@ -60,12 +63,6 @@ const Login: React.FC = () => {
   const { styles } = useStyles()
   return (
     <div className={styles.loginContainer}>
-      <AmbientLightBg
-        className={styles.loginBackground}
-        colors={['#007FFE', '#3099FE', '#60B2FE', '#90CCFE', '#C0E5FE', '#F0FFFE']}
-        loop
-        speed={1}
-      />
       <div className={styles.loginBox}>
         <div className={styles.loginCard}>
           <div className={styles.loginIll}>

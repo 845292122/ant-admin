@@ -11,7 +11,7 @@ import { App } from 'antd'
 
 const antdTheme: ThemeConfig = {
   token: {
-    colorPrimary: '#2f54eb'
+    colorPrimary: '#0251bf'
   },
   components: {
     Layout: {

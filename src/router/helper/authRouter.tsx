@@ -28,21 +28,20 @@ const AuthRouter = ({ children }: { children: JSX.Element }) => {
   const { pathname } = useLocation()
 
   // * 如果token存在并且访问login页面跳转到 /
-  if (token && pathname === '/login') {
-    return <Navigate to="/" replace />
-  }
+  // if (token && pathname === '/login') {
+  //   return <Navigate to="/" replace />
+  // }
 
   // * 找到当前路由的 meta 信息
   const route = findRoute(pathname, routes)
 
   // * 不需要认证,直接放行
-  if (!route.meta?.requireAuth) return children
+  // if (!route.meta?.requireAuth) return children
 
-  debugger
   // * 需要认证才能访问
-  if (!token || token === undefined) {
-    return <Navigate to="/login" replace />
-  }
+  // if (!token || token === undefined) {
+  //   return <Navigate to="/login" replace />
+  // }
 
   // * 需要有权限才能访问
   if (route.meta.perm && !perms?.includes(route.meta.perm)) {

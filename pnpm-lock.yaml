@@ -35,9 +35,6 @@ dependencies:
   react:
     specifier: ^18.3.1
     version: 18.3.1
-  react-color4bg:
-    specifier: ^0.1.5
-    version: 0.1.5(react-dom@18.3.1)(react@18.3.1)
   react-dom:
     specifier: ^18.3.1
     version: 18.3.1(react@18.3.1)
@@ -4968,17 +4965,6 @@ packages:
       classnames: 2.5.1
       rc-resize-observer: 1.4.3(react-dom@18.3.1)(react@18.3.1)
       rc-util: 5.44.4(react-dom@18.3.1)(react@18.3.1)
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-    dev: false
-
-  /react-color4bg@0.1.5(react-dom@18.3.1)(react@18.3.1):
-    resolution: {integrity: sha512-PxUfDlXkqPj6xArco9UDW6LBewAhxgHPFIVbCXDxpLmPYAY/5xwP36b5IyaL+4tZCzkNKnFDiRmfYGUTD523WQ==, tarball: https://registry.npmmirror.com/react-color4bg/-/react-color4bg-0.1.5.tgz}
-    engines: {pnpm: 10.0.0}
-    peerDependencies:
-      react: ^18 || ^19 || ^19.0.0-rc
-      react-dom: ^18 || ^19 || ^19.0.0-rc
-    dependencies:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
     dev: false

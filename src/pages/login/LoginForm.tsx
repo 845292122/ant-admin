@@ -1,5 +1,5 @@
-import { Key, Phone, PhoneTwo, TencentQq, Wechat } from '@icon-park/react'
-import { Button, Divider, Form, FormProps, Input, message } from 'antd'
+import { Key, Phone, Wechat } from '@icon-park/react'
+import { Button, Checkbox, Divider, Form, FormProps, Input, message, Tooltip } from 'antd'
 import { createStyles } from 'antd-style'
 import { useSetAtom } from 'jotai'
 import React from 'react'
@@ -10,9 +10,8 @@ import { _localStorage } from '~/utils'
 
 const useStyles = createStyles(() => {
   return {
-    contactAuthor: {
-      display: 'flex',
-      justifyContent: 'space-around'
+    loginForm: {
+      marginBottom: '0'
     }
   }
 })
@@ -36,9 +35,18 @@ const LoginForm: React.FC = () => {
   return (
     <div style={{ minWidth: '300px' }}>
       <h1>欢迎使用</h1>
-      <Form name="login" form={form} autoComplete="off" onFinish={handleLogin}>
+      <Form
+        name="login"
+        form={form}
+        autoComplete="off"
+        onFinish={handleLogin}
+        className={styles.loginForm}
+      >
         <Form.Item name="phone" rules={[{ required: true, message: '请输入手机号' }]}>
-          <Input placeholder="手机号" prefix={<Phone theme="outline" size="16" fill="#333" />} />
+          <Input
+            placeholder="请输入手机号"
+            prefix={<Phone theme="outline" size="16" fill="#333" />}
+          />
         </Form.Item>
         <Form.Item name="password" rules={[{ required: true, message: '请输入密码' }]}>
           <Input.Password
@@ -46,18 +54,23 @@ const LoginForm: React.FC = () => {
             prefix={<Key theme="outline" size="16" fill="#333" />}
           />
         </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
-            登录
-          </Button>
+        <Form.Item name="remember" style={{ margin: '0' }}>
+          <Checkbox>
+            <Tooltip title="保存账号密码30天" placement="right">
+              记住我
+            </Tooltip>
+          </Checkbox>
         </Form.Item>
+        <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
+          登录
+        </Button>
       </Form>
-      <Divider plain>联系作者</Divider>
-      <div className={styles.contactAuthor}>
-        <Wechat theme="outline" size="24" fill="#333" />
-        <TencentQq theme="outline" size="24" fill="#333" />
-        <PhoneTwo theme="outline" size="24" fill="#333" />
-      </div>
+      <Divider plain style={{ margin: 10 }}>
+        联系作者
+      </Divider>
+      <Button block icon={<Wechat theme="outline" size="18" fill="#17a332" strokeWidth={3} />}>
+        使用微信登录
+      </Button>
     </div>
   )
 }
