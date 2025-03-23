@@ -329,7 +329,7 @@ const Tenant: React.FC = () => {
     list: ApiType.Tenant.Info[]
   }> => {
     const { total, records } = await tenantApi.page({
-      pageNo: current,
+      page: current,
       pageSize,
       ...formData
     })

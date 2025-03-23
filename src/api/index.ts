@@ -38,8 +38,6 @@ export class Request {
     // * 响应拦截器
     this.service.interceptors.response.use(
       (response: AxiosResponse) => {
-        const { data } = response
-
         // 文件对象直接返回
         if (
           response.request.responseType === 'blob' ||
@@ -48,33 +46,36 @@ export class Request {
           return response.data
         }
 
-        return Promise.resolve(data)
+        const { code, msg, data } = response.data
+
+        if (code === 401) {
+          // TODO 提示重新登录
+          return Promise.reject('无效的会话，或者会话已过期，请重新登录。')
+        } else if (code === 403) {
+          message.error('您没有权限访问该资源, 请联系管理员')
+          return Promise.reject(msg)
+        } else if (code !== 200) {
+          message.error(msg)
+          return Promise.reject(msg)
+        } else {
+          return Promise.resolve(data)
+        }
       },
 
       (error: AxiosError) => {
-        const status = error.response?.status
-        const errMsg = error.response?.data as string
-
-        let msg: string
-
-        // * 错误处理
-        switch (status) {
-          case 400:
-            msg = errMsg ?? '请求失败'
-            break
-          case 401:
-            msg = errMsg ?? '登录失效，请重新登录'
-            break
-          case 403:
-            msg = errMsg ?? '权限不足，请联系管理员'
-            break
-          default:
-            msg = errMsg ?? 'Internal Server Error'
-            break
+        let msg = error.message
+        if (msg == 'Network Error') {
+          msg = '后端接口连接异常'
+        } else if (msg.includes('timeout')) {
+          msg = '系统接口请求超时'
+        } else if (msg.includes('Request failed with status code')) {
+          msg = '系统接口' + msg.substr(msg.length - 3) + '异常'
+        } else {
+          msg = '系统繁忙,请稍后再试'
         }
 
         message.error(msg)
-        return Promise.reject(msg)
+        return Promise.reject(error)
       }
     )
   }
@@ -97,7 +98,6 @@ export class Request {
 
   // TODO: 上传文件
 }
-
 export default new Request()
 
 // * 导出api模块

@@ -178,7 +178,7 @@ const User: React.FC = () => {
     list: ApiType.User.Info[]
   }> => {
     const { total, records } = await userApi.page({
-      pageNo: current,
+      page: current,
       pageSize,
       ...formData
     })

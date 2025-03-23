@@ -41,7 +41,7 @@ export default defineConfig((config: ConfigEnv): UserConfig => {
       open: false,
       proxy: {
         [env.VITE_APP_BASE_API]: {
-          target: 'http://localhost:3000',
+          target: 'http://localhost:8080',
           changeOrigin: true,
           ws: true,
           rewrite: path => path.replace(new RegExp('^' + env.VITE_APP_BASE_API), '')

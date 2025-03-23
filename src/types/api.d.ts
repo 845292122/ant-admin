@@ -1,7 +1,7 @@
 declare namespace ApiType {
   namespace Page {
     type Param = {
-      pageNo: number
+      page: number
       pageSize: number
     }
 
