@@ -1,29 +1,8 @@
-import {
-  Button,
-  Col,
-  DatePicker,
-  Drawer,
-  DrawerProps,
-  Input,
-  InputNumber,
-  Radio,
-  Row,
-  Select
-} from 'antd'
+import { Col, DatePicker, Drawer, DrawerProps, Input, InputNumber, Radio, Row, Select } from 'antd'
 import { Rule } from 'antd/es/form'
 import { Form } from 'antd'
 import React from 'react'
-
-type InfoDrawerExtraProps = {
-  handleOk: () => void
-}
-const InfoDrawerExtra: React.FC<InfoDrawerExtraProps> = ({ handleOk }) => {
-  return (
-    <Button type="primary" onClick={handleOk}>
-      提交
-    </Button>
-  )
-}
+import InfoDrawerExtra from './InfoDrawerExtra'
 
 export type InfoDrawerFormValues<T extends InfoDrawerFieldType[]> = {
   [K in T[number]['name']]: unknown
@@ -32,7 +11,7 @@ export type InfoDrawerFormValues<T extends InfoDrawerFieldType[]> = {
 export type InfoDrawerFieldType = {
   name: string
   label: string
-  type: 'input' | 'select' | 'radio' | 'date' | 'inputNumber'
+  type: 'input' | 'select' | 'radio' | 'date' | 'inputNumber' | 'dateRange' | 'textarea'
   options?: Array<{ label: string; value: string | number }>
   rules?: Array<Rule>
   span?: number
@@ -87,6 +66,9 @@ const InfoDrawer = <T extends InfoDrawerFieldType[]>({
                 {field.type === 'input' && (
                   <Input placeholder={`请输入${field.label}`} {...field.props} />
                 )}
+                {field.type === 'textarea' && (
+                  <Input.TextArea placeholder={`请输入${field.label}`} {...field.props} />
+                )}
                 {field.type === 'inputNumber' && <InputNumber {...field.props} />}
                 {field.type === 'select' && (
                   <Select
@@ -106,6 +88,9 @@ const InfoDrawer = <T extends InfoDrawerFieldType[]>({
                   </Radio.Group>
                 )}
                 {field.type === 'date' && <DatePicker style={{ width: '100%' }} {...field.props} />}
+                {field.type === 'dateRange' && (
+                  <DatePicker.RangePicker style={{ width: '100%' }} {...field.props} />
+                )}
               </Form.Item>
             </Col>
           ))}

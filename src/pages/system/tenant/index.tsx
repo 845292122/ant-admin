@@ -65,6 +65,13 @@ const queryFormFields: QueryFormField[] = [
 
 // * 编辑表单项
 const infoFields: InfoDrawerFieldType[] = [
+  // TODO 菜单权限选择,需要改成tree组件形式
+  {
+    name: 'perms',
+    label: '菜单权限',
+    type: 'select',
+    span: 24
+  },
   {
     name: 'id',
     label: 'ID',
@@ -105,10 +112,38 @@ const infoFields: InfoDrawerFieldType[] = [
     type: 'input'
   },
   {
-    name: 'remark',
-    label: '备注',
-    type: 'input'
+    name: 'trialDate',
+    label: '试用日期',
+    type: 'dateRange'
   },
+  {
+    name: 'subscriptionDate',
+    label: '订阅日期',
+    type: 'dateRange'
+  },
+  // {
+  //   name: 'status',
+  //   label: '状态',
+  //   type: 'select',
+  //   options: [
+  //     {
+  //       label: '未使用',
+  //       value: 0
+  //     },
+  //     {
+  //       label: '试用中',
+  //       value: 1
+  //     },
+  //     {
+  //       label: '试用结束',
+  //       value: 2
+  //     },
+  //     {
+  //       label: '已使用',
+  //       value: 3
+  //     }
+  //   ]
+  // },
   {
     name: 'userCount',
     label: '最大用户数量',
@@ -118,49 +153,6 @@ const infoFields: InfoDrawerFieldType[] = [
       max: 100,
       defaultValue: 10
     }
-  },
-  {
-    name: 'status',
-    label: '状态',
-    type: 'select',
-    options: [
-      {
-        label: '未使用',
-        value: 0
-      },
-      {
-        label: '试用中',
-        value: 1
-      },
-      {
-        label: '试用结束',
-        value: 2
-      },
-      {
-        label: '已使用',
-        value: 3
-      }
-    ]
-  },
-  {
-    name: 'trialStartDate',
-    label: '试用开始日期',
-    type: 'date'
-  },
-  {
-    name: 'trialEndDate',
-    label: '试用结束日期',
-    type: 'date'
-  },
-  {
-    name: 'startDate',
-    label: '正式开始日期',
-    type: 'date'
-  },
-  {
-    name: 'endDate',
-    label: '正式结束日期',
-    type: 'date'
   },
   {
     name: 'isPremium',
@@ -180,12 +172,14 @@ const infoFields: InfoDrawerFieldType[] = [
       }
     ]
   },
-  // TODO 菜单权限选择,需要改成tree组件形式
   {
-    name: 'perms',
-    label: '菜单权限',
-    type: 'select',
-    span: 24
+    name: 'remark',
+    label: '备注',
+    type: 'textarea',
+    span: 24,
+    props: {
+      rows: 4
+    }
   }
 ]
 
@@ -232,19 +226,22 @@ const Tenant: React.FC = () => {
       title: '地址',
       dataIndex: 'address',
       key: 'address',
-      width: 100
+      width: 100,
+      ellipsis: true
     },
     {
       title: '域名',
       dataIndex: 'domain',
       key: 'domain',
-      width: 100
+      width: 100,
+      ellipsis: true
     },
     {
       title: '备注',
       dataIndex: 'remark',
       key: 'remark',
-      width: 100
+      width: 100,
+      ellipsis: true
     },
     {
       title: 'Premium租户',
@@ -363,6 +360,18 @@ const Tenant: React.FC = () => {
   })
 
   const handleSubmitInfo = async (values: InfoDrawerFormValues<typeof infoFields>) => {
+    const { trialDate, subscriptionDate } = values
+    if (trialDate && Array.isArray(trialDate)) {
+      values.trialStartDate = trialDate[0]
+      values.trialEndDate = trialDate[1]
+    }
+    if (subscriptionDate && Array.isArray(subscriptionDate)) {
+      values.startDate = subscriptionDate[0]
+      values.endDate = subscriptionDate[1]
+    }
+    delete values.trialDate
+    delete values.subscriptionDate
+
     let msg = '添加成功'
     if (values.id) {
       msg = '修改成功'
@@ -384,10 +393,14 @@ const Tenant: React.FC = () => {
     const res = await tenantApi.info(id)
     const formattedData = {
       ...res,
-      trialStartDate: res.trialStartDate ? dayjs(res.trialStartDate) : undefined,
-      trialEndDate: res.trialEndDate ? dayjs(res.trialEndDate) : undefined,
-      startDate: res.startDate ? dayjs(res.startDate) : undefined,
-      endDate: res.endDate ? dayjs(res.endDate) : undefined
+      trialDate: [
+        res.trialStartDate ? dayjs(res.trialStartDate) : undefined,
+        res.trialEndDate ? dayjs(res.trialEndDate) : undefined
+      ],
+      subscriptionDate: [
+        res.startDate ? dayjs(res.startDate) : undefined,
+        res.endDate ? dayjs(res.endDate) : undefined
+      ]
     }
     setInitialValues(formattedData)
     setInfoVisible(true)
