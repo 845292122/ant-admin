@@ -4,7 +4,7 @@ import { Button, Card, Form, message, Popconfirm, Space, Table, TableProps, Tag 
 import dayjs from 'dayjs'
 import React, { useState } from 'react'
 import { tenantApi } from '~/api'
-import InfoModal, { GenerateFormValues, InfoModalFieldType } from '~/components/InfoModal'
+import InfoDrawer, { InfoDrawerFieldType, InfoDrawerFormValues } from '~/components/InfoDrawer'
 import QueryForm, { QueryFormField } from '~/components/QueryForm'
 
 // * 搜索表单项
@@ -45,11 +45,26 @@ const queryFormFields: QueryFormField[] = [
         value: '4'
       }
     ]
+  },
+  {
+    name: 'isPremium',
+    label: '是否Premium',
+    type: 'select',
+    options: [
+      {
+        label: '是',
+        value: '1'
+      },
+      {
+        label: '否',
+        value: '0'
+      }
+    ]
   }
 ]
 
 // * 编辑表单项
-const infoFields: InfoModalFieldType[] = [
+const infoFields: InfoDrawerFieldType[] = [
   {
     name: 'id',
     label: 'ID',
@@ -70,7 +85,7 @@ const infoFields: InfoModalFieldType[] = [
   },
   {
     name: 'companyName',
-    label: '公司',
+    label: '公司名称',
     type: 'input',
     rules: [{ required: true, message: '公司不能为空' }]
   },
@@ -111,19 +126,19 @@ const infoFields: InfoModalFieldType[] = [
     options: [
       {
         label: '未使用',
-        value: '0'
+        value: 0
       },
       {
         label: '试用中',
-        value: '1'
+        value: 1
       },
       {
         label: '试用结束',
-        value: '2'
+        value: 2
       },
       {
         label: '已使用',
-        value: '3'
+        value: 3
       }
     ]
   },
@@ -347,7 +362,7 @@ const Tenant: React.FC = () => {
     form
   })
 
-  const handleSubmitInfo = async (values: GenerateFormValues<typeof infoFields>) => {
+  const handleSubmitInfo = async (values: InfoDrawerFormValues<typeof infoFields>) => {
     let msg = '添加成功'
     if (values.id) {
       msg = '修改成功'
@@ -369,7 +384,6 @@ const Tenant: React.FC = () => {
     const res = await tenantApi.info(id)
     const formattedData = {
       ...res,
-      status: res.status?.toString(),
       trialStartDate: res.trialStartDate ? dayjs(res.trialStartDate) : undefined,
       trialEndDate: res.trialEndDate ? dayjs(res.trialEndDate) : undefined,
       startDate: res.startDate ? dayjs(res.startDate) : undefined,
@@ -423,13 +437,14 @@ const Tenant: React.FC = () => {
         />
       </Card>
 
-      <InfoModal<typeof infoFields>
+      <InfoDrawer<typeof infoFields>
         fields={infoFields}
         visible={infoVisible}
         onSubmit={handleSubmitInfo}
         initialValues={initialValues}
         onClose={() => setInfoVisible(false)}
         title="租户信息"
+        size="large"
       />
     </React.Fragment>
   )

@@ -34,7 +34,7 @@ const LoginForm: React.FC = () => {
 
   return (
     <div style={{ minWidth: '300px' }}>
-      <h1>欢迎使用</h1>
+      <h2>欢迎使用</h2>
       <Form
         name="login"
         form={form}
@@ -66,7 +66,7 @@ const LoginForm: React.FC = () => {
         </Button>
       </Form>
       <Divider plain style={{ margin: 10 }}>
-        联系作者
+        其他登录方式
       </Divider>
       <Button block icon={<Wechat theme="outline" size="18" fill="#17a332" strokeWidth={3} />}>
         使用微信登录

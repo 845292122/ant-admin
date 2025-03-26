@@ -43,7 +43,7 @@ const QueryForm: React.FC<QueryFormProps> = ({ fields, onSearch, onReset, form }
 
   return (
     <Form form={form} name="query-form">
-      <Row gutter={[16, 12]} align="middle" wrap>
+      <Row gutter={[16, 0]} align="middle" wrap>
         {visibleFields.map(field => (
           <Col
             xs={24}
@@ -74,38 +74,33 @@ const QueryForm: React.FC<QueryFormProps> = ({ fields, onSearch, onReset, form }
         {fields.length > 3 && <Col flex="auto" />}
 
         {/* 操作按钮（搜索、重置、展开/收起） */}
-        <Col>
-          <Form.Item>
-            <Space>
-              <Button
-                onClick={handleReset}
-                icon={<Refresh theme="outline" size="16" fill="#333" />}
-              >
-                重置
+        <Form.Item>
+          <Space>
+            <Button onClick={handleReset} icon={<Refresh theme="outline" size="16" fill="#333" />}>
+              重置
+            </Button>
+            <Button
+              type="primary"
+              onClick={handleSearch}
+              icon={<Search theme="outline" size="16" fill="#fff" />}
+            >
+              搜索
+            </Button>
+            {fields.length > 3 && (
+              <Button type="link" onClick={() => setExpanded(!expanded)}>
+                {expanded ? (
+                  <>
+                    收起 <Up theme="outline" size="14" fill="#1677FF" />
+                  </>
+                ) : (
+                  <>
+                    展开 <Down theme="outline" size="14" fill="#1677FF" />
+                  </>
+                )}
               </Button>
-              <Button
-                type="primary"
-                onClick={handleSearch}
-                icon={<Search theme="outline" size="16" fill="#fff" />}
-              >
-                搜索
-              </Button>
-              {fields.length > 3 && (
-                <Button type="link" onClick={() => setExpanded(!expanded)}>
-                  {expanded ? (
-                    <>
-                      收起 <Up theme="outline" size="14" fill="#1677FF" />
-                    </>
-                  ) : (
-                    <>
-                      展开 <Down theme="outline" size="14" fill="#1677FF" />
-                    </>
-                  )}
-                </Button>
-              )}
-            </Space>
-          </Form.Item>
-        </Col>
+            )}
+          </Space>
+        </Form.Item>
       </Row>
     </Form>
   )
