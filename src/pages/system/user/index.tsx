@@ -128,7 +128,8 @@ const User: React.FC = () => {
       label: '租户',
       type: 'select',
       options: tenantOptions,
-      span: 24
+      span: 24,
+      rules: [{ required: true, message: '租户不能为空' }]
     },
     {
       name: 'username',
@@ -213,7 +214,7 @@ const User: React.FC = () => {
         .filter(item => item.id)
         .map(item => {
           return {
-            label: item.companyName ?? '',
+            label: `${item.id}: ${item.companyName ?? ''}`,
             value: item.id as number
           }
         })

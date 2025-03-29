@@ -115,29 +115,29 @@ const infoFields: InfoDrawerFieldType[] = [
     label: '订阅日期',
     type: 'dateRange'
   },
-  // {
-  //   name: 'status',
-  //   label: '状态',
-  //   type: 'select',
-  //   options: [
-  //     {
-  //       label: '未使用',
-  //       value: 0
-  //     },
-  //     {
-  //       label: '试用中',
-  //       value: 1
-  //     },
-  //     {
-  //       label: '试用结束',
-  //       value: 2
-  //     },
-  //     {
-  //       label: '已使用',
-  //       value: 3
-  //     }
-  //   ]
-  // },
+  {
+    name: 'status',
+    label: '状态',
+    type: 'select',
+    options: [
+      {
+        label: '未使用',
+        value: 0
+      },
+      {
+        label: '试用中',
+        value: 1
+      },
+      {
+        label: '试用结束',
+        value: 2
+      },
+      {
+        label: '已使用',
+        value: 3
+      }
+    ]
+  },
   {
     name: 'userCount',
     label: '最大用户数量',
@@ -379,7 +379,7 @@ const Tenant: React.FC = () => {
   }
 
   const createData = async () => {
-    setInitialValues(undefined)
+    setInitialValues({ userCount: 10 })
     setInfoVisible(true)
     const permissionList = generatePermissionByBizRoutes()
     console.log(permissionList)
@@ -397,6 +397,7 @@ const Tenant: React.FC = () => {
         res.startDate ? dayjs(res.startDate) : undefined,
         res.endDate ? dayjs(res.endDate) : undefined
       ]
+      // userCount: Number(res.userCount)
     }
     setInitialValues(formattedData)
     setInfoVisible(true)
