@@ -68,7 +68,11 @@ const LoginForm: React.FC = () => {
       <Divider plain style={{ margin: 10 }}>
         其他登录方式
       </Divider>
-      <Button block icon={<Wechat theme="outline" size="18" fill="#17a332" strokeWidth={3} />}>
+      <Button
+        block
+        icon={<Wechat theme="outline" size="18" fill="#17a332" strokeWidth={3} />}
+        disabled
+      >
         使用微信登录
       </Button>
     </div>
