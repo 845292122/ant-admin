@@ -6,6 +6,7 @@ import React, { useState } from 'react'
 import { tenantApi } from '~/api'
 import InfoDrawer, { InfoDrawerFieldType, InfoDrawerFormValues } from '~/components/InfoDrawer'
 import QueryForm, { QueryFormField } from '~/components/QueryForm'
+import { generatePermissionByBizRoutes } from '~/utils'
 
 // * 搜索表单项
 const queryFormFields: QueryFormField[] = [
@@ -65,13 +66,6 @@ const queryFormFields: QueryFormField[] = [
 
 // * 编辑表单项
 const infoFields: InfoDrawerFieldType[] = [
-  // TODO 菜单权限选择,需要改成tree组件形式
-  {
-    name: 'perms',
-    label: '菜单权限',
-    type: 'select',
-    span: 24
-  },
   {
     name: 'id',
     label: 'ID',
@@ -387,6 +381,8 @@ const Tenant: React.FC = () => {
   const createData = async () => {
     setInitialValues(undefined)
     setInfoVisible(true)
+    const permissionList = generatePermissionByBizRoutes()
+    console.log(permissionList)
   }
 
   const modifyData = async (id: number) => {
