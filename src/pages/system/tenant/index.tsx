@@ -305,10 +305,15 @@ const Tenant: React.FC = () => {
       key: 'action',
       fixed: 'right',
       align: 'center',
-      width: 150,
+      width: 200,
       render: (_, record) => (
         <Space size="small">
-          <Button color="blue" variant="link" onClick={() => record.id && modifyData(record.id)}>
+          <Button
+            color="primary"
+            variant="link"
+            onClick={() => record.id && modifyData(record.id)}
+            size="small"
+          >
             编辑
           </Button>
           <Popconfirm
@@ -318,10 +323,13 @@ const Tenant: React.FC = () => {
             okText="Yes"
             cancelText="No"
           >
-            <Button color="red" variant="link">
+            <Button color="red" variant="link" size="small">
               删除
             </Button>
           </Popconfirm>
+          <Button variant="link" color="primary" size="small">
+            分配权限
+          </Button>
         </Space>
       )
     }

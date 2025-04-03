@@ -85,7 +85,8 @@ const User: React.FC = () => {
       title: '备注',
       dataIndex: 'remark',
       key: 'remark',
-      width: 100
+      width: 100,
+      ellipsis: true
     },
     {
       title: 'Action',

@@ -24,6 +24,7 @@ const LoginForm: React.FC = () => {
   const setAuthInfo = useSetAtom(authJotai.authInfoAtom)
 
   const handleLogin: FormProps<ApiType.Auth.Login>['onFinish'] = async values => {
+    debugger
     const tokenVal = await authApi.login(values)
     setToken(tokenVal)
     const authInfo = await authApi.getInfo()
