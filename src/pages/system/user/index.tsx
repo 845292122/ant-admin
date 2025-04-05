@@ -49,12 +49,6 @@ const User: React.FC = () => {
       render: text => <a>{text}</a>
     },
     {
-      title: '用户名',
-      dataIndex: 'username',
-      key: 'username',
-      width: 100
-    },
-    {
       title: '联系人',
       dataIndex: 'nickname',
       key: 'nickname',
@@ -131,12 +125,6 @@ const User: React.FC = () => {
       options: tenantOptions,
       span: 24,
       rules: [{ required: true, message: '租户不能为空' }]
-    },
-    {
-      name: 'username',
-      label: '用户名',
-      type: 'input',
-      rules: [{ required: true, message: '用户名不能为空' }]
     },
     {
       name: 'nickname',
