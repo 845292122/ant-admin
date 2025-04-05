@@ -15,8 +15,6 @@ const BizRoutes: RouteType.RouteInfo[] = [
         meta: {
           title: '首页',
           key: '/',
-          requireAuth: true,
-          perm: 'home',
           icon: <HomeTwo theme="outline" size="18" strokeLinecap="square" />
         }
       },
@@ -26,8 +24,6 @@ const BizRoutes: RouteType.RouteInfo[] = [
         meta: {
           title: '个人中心',
           key: '/profile',
-          requireAuth: true,
-          perm: 'profile',
           hidden: true,
           icon: <HomeTwo theme="outline" size="18" strokeLinecap="square" />
         }
@@ -41,7 +37,6 @@ const BizRoutes: RouteType.RouteInfo[] = [
     meta: {
       key: '/system',
       title: '系统管理',
-      requireAuth: true,
       perm: 'system',
       icon: <SettingTwo theme="outline" size="18" strokeLinecap="square" />
     },
@@ -52,7 +47,6 @@ const BizRoutes: RouteType.RouteInfo[] = [
         meta: {
           title: '租户管理',
           key: '/system/tenant',
-          requireAuth: true,
           perm: 'system:tenant'
         }
       },
@@ -62,7 +56,6 @@ const BizRoutes: RouteType.RouteInfo[] = [
         meta: {
           title: '用户管理',
           key: '/system/user',
-          requireAuth: true,
           perm: 'system:user'
         }
       },
@@ -72,7 +65,6 @@ const BizRoutes: RouteType.RouteInfo[] = [
         meta: {
           title: '操作日志',
           key: '/system/log',
-          requireAuth: true,
           perm: 'system:log'
         }
       }
@@ -89,6 +81,7 @@ const BizRoutes: RouteType.RouteInfo[] = [
         meta: {
           title: '未授权',
           key: '403',
+          hidden: true,
           requireAuth: true
         }
       },
@@ -97,6 +90,7 @@ const BizRoutes: RouteType.RouteInfo[] = [
         element: lazyLoad(React.lazy(() => import('~/pages/error/NotFound'))),
         meta: {
           title: '页面飞走了~',
+          hidden: true,
           key: '404'
         }
       }

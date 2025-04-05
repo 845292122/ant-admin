@@ -97,7 +97,10 @@ const AppNav: React.FC<{ collapsed: boolean }> = ({ collapsed }) => {
           }
           return filteredChildren
         }
-        if (route.meta?.perm && perms.includes(route.meta.perm) && !route.meta.hidden) {
+        if (
+          (route.meta?.perm && perms.includes(route.meta.perm) && !route.meta.hidden) ||
+          (!route.meta.perm && !route.meta.hidden)
+        ) {
           return [
             {
               key: route.meta.key,
