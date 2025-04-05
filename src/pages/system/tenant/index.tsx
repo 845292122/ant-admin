@@ -4,9 +4,11 @@ import { Button, Card, Form, message, Popconfirm, Space, Table, TableProps, Tag 
 import dayjs from 'dayjs'
 import React, { useState } from 'react'
 import { tenantApi } from '~/api'
+import AssignPermission from '~/components/AssignPermission'
 import InfoDrawer, { InfoDrawerFieldType, InfoDrawerFormValues } from '~/components/InfoDrawer'
 import QueryForm, { QueryFormField } from '~/components/QueryForm'
 import { generatePermissionByBizRoutes } from '~/utils'
+import type { TreeDataNode } from 'antd'
 
 // * 搜索表单项
 const queryFormFields: QueryFormField[] = [
@@ -327,7 +329,7 @@ const Tenant: React.FC = () => {
               删除
             </Button>
           </Popconfirm>
-          <Button variant="link" color="primary" size="small">
+          <Button variant="link" color="primary" size="small" onClick={handleAssignPermission}>
             分配权限
           </Button>
         </Space>
@@ -356,6 +358,8 @@ const Tenant: React.FC = () => {
   const [form] = Form.useForm()
   const [infoVisible, setInfoVisible] = useState<boolean>(false)
   const [initialValues, setInitialValues] = useState<Record<string, unknown> | undefined>()
+  const [assignPermissionVisible, setAssignPermissionVisible] = useState<boolean>(false)
+  const [permissionTreeData, setPermissionTreeData] = useState<TreeDataNode[]>([])
   const { tableProps, refresh, search, data } = useAntdTable(getTableData, {
     defaultPageSize: 10,
     form
@@ -417,6 +421,12 @@ const Tenant: React.FC = () => {
     refresh()
   }
 
+  const handleAssignPermission = async () => {
+    const permissionsData = generatePermissionByBizRoutes()
+    setPermissionTreeData(permissionsData)
+    setAssignPermissionVisible(true)
+  }
+
   return (
     <React.Fragment>
       <Card style={{ marginBottom: 20 }}>
@@ -463,6 +473,12 @@ const Tenant: React.FC = () => {
         onClose={() => setInfoVisible(false)}
         title="租户信息"
         size="large"
+      />
+
+      <AssignPermission
+        open={assignPermissionVisible}
+        dataSource={permissionTreeData}
+        onCancel={() => setAssignPermissionVisible(false)}
       />
     </React.Fragment>
   )

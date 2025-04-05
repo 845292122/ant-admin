@@ -2,7 +2,7 @@ import BizRoutes from '~/router/routes'
 
 type PermissionNode = {
   key: string
-  label: string
+  title: string
   icon?: string
   children?: PermissionNode[]
 }
@@ -15,7 +15,7 @@ export function generatePermission(routes: RouteType.RouteInfo[]): PermissionNod
         return [
           {
             key: route.meta.key,
-            label: route.meta.title,
+            title: route.meta.title,
             children
           }
         ]
@@ -26,7 +26,7 @@ export function generatePermission(routes: RouteType.RouteInfo[]): PermissionNod
       return [
         {
           key: route.meta.key,
-          label: route.meta.title
+          title: route.meta.title
         }
       ]
     }

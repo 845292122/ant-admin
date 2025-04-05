@@ -104,6 +104,9 @@ const User: React.FC = () => {
               删除
             </Button>
           </Popconfirm>
+          <Button variant="link" color="primary" size="small">
+            分配权限
+          </Button>
         </Space>
       )
     }
