@@ -7,7 +7,7 @@ import { tenantApi } from '~/api'
 import AssignPermission from '~/components/AssignPermission'
 import InfoDrawer, { InfoDrawerFieldType, InfoDrawerFormValues } from '~/components/InfoDrawer'
 import QueryForm, { QueryFormField } from '~/components/QueryForm'
-import { generatePermissionByBizRoutes } from '~/utils'
+import { filterChildKeys, generatePermissionByBizRoutes } from '~/utils'
 import type { TreeDataNode } from 'antd'
 
 // * 搜索表单项
@@ -180,6 +180,8 @@ const infoFields: InfoDrawerFieldType[] = [
 ]
 
 const Tenant: React.FC = () => {
+  const [messageApi, contextHolder] = message.useMessage()
+
   // * 数据表格项
   const tableColumns: TableProps<ApiType.Tenant.Info>['columns'] = [
     {
@@ -329,7 +331,12 @@ const Tenant: React.FC = () => {
               删除
             </Button>
           </Popconfirm>
-          <Button variant="link" color="primary" size="small" onClick={handleAssignPermission}>
+          <Button
+            variant="link"
+            color="primary"
+            size="small"
+            onClick={() => record.id && openAssignPermission(record.id)}
+          >
             分配权限
           </Button>
         </Space>
@@ -360,6 +367,8 @@ const Tenant: React.FC = () => {
   const [initialValues, setInitialValues] = useState<Record<string, unknown> | undefined>()
   const [assignPermissionVisible, setAssignPermissionVisible] = useState<boolean>(false)
   const [permissionTreeData, setPermissionTreeData] = useState<TreeDataNode[]>([])
+  const [selectedRowId, setSelectedRowId] = useState<number | undefined>()
+  const [defaultPermCheckedKeys, setDefaultPermCheckedKeys] = useState<string[]>([])
   const { tableProps, refresh, search, data } = useAntdTable(getTableData, {
     defaultPageSize: 10,
     form
@@ -421,14 +430,28 @@ const Tenant: React.FC = () => {
     refresh()
   }
 
-  const handleAssignPermission = async () => {
+  const openAssignPermission = async (selectedRowId: number) => {
     const permissionsData = generatePermissionByBizRoutes()
     setPermissionTreeData(permissionsData)
+    setSelectedRowId(selectedRowId)
+    const { perms } = (await tenantApi.perms(selectedRowId)) ?? {}
+    const filteredPerms = filterChildKeys(perms ?? [])
+    setDefaultPermCheckedKeys(filteredPerms)
     setAssignPermissionVisible(true)
+  }
+
+  const handleAssignPermission = async (checkedVal: string[]) => {
+    await tenantApi.assignPerms({
+      ownerId: selectedRowId,
+      perms: checkedVal
+    })
+    messageApi.success('分配权限成功')
+    setAssignPermissionVisible(false)
   }
 
   return (
     <React.Fragment>
+      {contextHolder}
       <Card style={{ marginBottom: 20 }}>
         <QueryForm
           fields={queryFormFields}
@@ -479,6 +502,8 @@ const Tenant: React.FC = () => {
         open={assignPermissionVisible}
         dataSource={permissionTreeData}
         onCancel={() => setAssignPermissionVisible(false)}
+        onSubmit={handleAssignPermission}
+        defaultCheckedKeys={defaultPermCheckedKeys}
       />
     </React.Fragment>
   )

@@ -78,10 +78,9 @@ declare namespace ApiType {
   namespace Perm {
     type Info = {
       id?: number
-      pId?: number
-      key?: string
-      name?: string
-      status?: number
+      ownerId?: number
+      ownerType?: number
+      perms: string[]
     }
 
     type Search = {

@@ -9,6 +9,8 @@ const page = (params: ApiType.Page.Param & ApiType.Tenant.Search) =>
   service.get<ApiType.Page.Result<ApiType.Tenant.Info>>(`${baseURL}/page`, { params })
 const info = (id: number) => service.get<ApiType.Tenant.Info>(`${baseURL}/${id}`)
 const list = () => service.get<ApiType.Tenant.Info[]>(`${baseURL}/list`)
+const assignPerms = (data: ApiType.Perm.Info) => service.post(`${baseURL}/assignPerms`, data)
+const perms = (id: number) => service.get<ApiType.Perm.Info>(`${baseURL}/perms/${id}`)
 
 export const tenantApi = {
   create,
@@ -16,5 +18,7 @@ export const tenantApi = {
   remove,
   page,
   info,
-  list
+  list,
+  assignPerms,
+  perms
 }
