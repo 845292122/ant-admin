@@ -17,7 +17,6 @@ export const routes: RouteType.RouteInfo[] = [
     element: <Navigate to="/404" />
   }
 ]
-
 const Router = () => useRoutes(routes)
 
 export default Router

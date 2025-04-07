@@ -402,8 +402,6 @@ const Tenant: React.FC = () => {
   const createData = async () => {
     setInitialValues({ userCount: 10 })
     setInfoVisible(true)
-    const permissionList = generatePermissionByBizRoutes()
-    console.log(permissionList)
   }
 
   const modifyData = async (id: number) => {

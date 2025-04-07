@@ -24,7 +24,6 @@ const LoginForm: React.FC = () => {
   const setAuthInfo = useSetAtom(authJotai.authInfoAtom)
 
   const handleLogin: FormProps<ApiType.Auth.Login>['onFinish'] = async values => {
-    debugger
     const tokenVal = await authApi.login(values)
     setToken(tokenVal)
     const authInfo = await authApi.getInfo()
@@ -71,7 +70,7 @@ const LoginForm: React.FC = () => {
       </Divider>
       <Button
         block
-        icon={<Wechat theme="outline" size="18" fill="#17a332" strokeWidth={3} />}
+        icon={<Wechat theme="outline" size="18" fill="#17a332" strokeWidth={4} />}
         disabled
       >
         使用微信登录

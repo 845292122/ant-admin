@@ -23,6 +23,8 @@ export function findRoute(
  * * 路由守卫 (授权认证校验)
  */
 const AuthRouter = ({ children }: { children: JSX.Element }) => {
+  // TODO 路由权限校验
+
   const token = useAtomValue(authJotai.tokenAtom)
   const perms = useAtomValue(authJotai.permAtom)
   const { pathname } = useLocation()
