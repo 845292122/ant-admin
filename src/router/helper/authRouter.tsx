@@ -23,27 +23,22 @@ export function findRoute(
  * * 路由守卫 (授权认证校验)
  */
 const AuthRouter = ({ children }: { children: JSX.Element }) => {
-  // TODO 路由权限校验
-
   const token = useAtomValue(authJotai.tokenAtom)
   const perms = useAtomValue(authJotai.permAtom)
   const { pathname } = useLocation()
 
   // * 如果token存在并且访问login页面跳转到 /
-  // if (token && pathname === '/login') {
-  //   return <Navigate to="/" replace />
-  // }
+  if (token && pathname === '/login') {
+    return <Navigate to="/" replace />
+  }
+
+  // * 需要认证才能访问
+  if (!token && pathname !== '/login') {
+    return <Navigate to="/login" replace />
+  }
 
   // * 找到当前路由的 meta 信息
   const route = findRoute(pathname, routes)
-
-  // * 不需要认证,直接放行
-  // if (!route.meta?.requireAuth) return children
-
-  // * 需要认证才能访问
-  // if (!token || token === undefined) {
-  //   return <Navigate to="/login" replace />
-  // }
 
   // * 需要有权限才能访问
   if (route.meta.perm && !perms?.includes(route.meta.perm)) {
