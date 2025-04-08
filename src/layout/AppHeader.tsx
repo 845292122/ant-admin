@@ -4,10 +4,13 @@ import { Avatar, Button, Dropdown, MenuProps, message, Typography } from 'antd'
 import { createStyles } from 'antd-style'
 import { useAtom, useSetAtom } from 'jotai'
 import { RESET } from 'jotai/utils'
-import React from 'react'
+import React, { useContext } from 'react'
 import { useNavigate } from 'react-router'
+import ProfileContext from '~/context/ProfileContext'
 import { useRouteMeta } from '~/hooks/useRouteMeta'
 import { appJotai, authJotai } from '~/store'
+
+type AppHeaderProps = {}
 
 const useStyles = createStyles(() => {
   return {
@@ -50,9 +53,9 @@ const ActionBar: React.FC = () => {
   const setAuthInfo = useSetAtom(authJotai.authInfoAtom)
   const setPerms = useSetAtom(authJotai.permAtom)
 
-  const toProfile = () => {
-    navigate('/profile')
-  }
+  const profileContext = useContext(ProfileContext)
+  if (!profileContext) throw new Error('ProfileContext is undefined')
+  const { openProfile } = profileContext
 
   const logout = () => {
     setToken(RESET)
@@ -67,7 +70,7 @@ const ActionBar: React.FC = () => {
       key: 'profile',
       label: '个人信息',
       icon: <ProfileTwoTone style={{ fontSize: '16px' }} />,
-      onClick: toProfile
+      onClick: openProfile
     },
     {
       key: 'logout',
@@ -89,7 +92,7 @@ const ActionBar: React.FC = () => {
   )
 }
 
-const AppHeader: React.FC = () => {
+const AppHeader: React.FC<AppHeaderProps> = () => {
   const { styles } = useStyles()
   const [collapseMenu, setCollapseMenu] = useAtom(appJotai.navCollapsedAtom)
   const routeMeta = useRouteMeta()

@@ -17,16 +17,6 @@ const BizRoutes: RouteType.RouteInfo[] = [
           key: '/',
           icon: <HomeTwo theme="outline" size="18" strokeLinecap="square" />
         }
-      },
-      {
-        path: '/profile',
-        element: lazyLoad(React.lazy(() => import('~/pages/common/profile'))),
-        meta: {
-          title: '个人中心',
-          key: '/profile',
-          hidden: true,
-          icon: <HomeTwo theme="outline" size="18" strokeLinecap="square" />
-        }
       }
     ]
   },

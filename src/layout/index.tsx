@@ -5,6 +5,9 @@ import { Outlet } from 'react-router'
 import { appJotai } from '~/store'
 import AppNav from './AppNav'
 import AppHeader from './AppHeader'
+import Profile from './Profile'
+import { useState } from 'react'
+import ProfileContext from '~/context/ProfileContext'
 
 const useStyles = createStyles(() => {
   return {
@@ -15,10 +18,18 @@ const useStyles = createStyles(() => {
     }
   }
 })
+
 const AppLayout = () => {
   const { Sider, Content } = Layout
   const { styles } = useStyles()
   const navCollapsed = useAtomValue(appJotai.navCollapsedAtom)
+  const [visible, setVisible] = useState<boolean>(false)
+  const closeProfile = () => {
+    setVisible(false)
+  }
+  const openProfile = () => {
+    setVisible(true)
+  }
 
   return (
     <Layout className={styles.appContainer}>
@@ -26,16 +37,19 @@ const AppLayout = () => {
         <AppNav collapsed={navCollapsed} />
       </Sider>
       <Layout>
-        <AppHeader />
-        <Content
-          style={{
-            padding: '30px',
-            height: '100%',
-            overflow: 'auto'
-          }}
-        >
-          <Outlet />
-        </Content>
+        <ProfileContext.Provider value={{ visible, closeProfile, openProfile }}>
+          <AppHeader />
+          <Content
+            style={{
+              padding: '30px',
+              height: '100%',
+              overflow: 'auto'
+            }}
+          >
+            <Outlet />
+          </Content>
+          <Profile />
+        </ProfileContext.Provider>
       </Layout>
     </Layout>
   )
