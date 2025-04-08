@@ -11,10 +11,10 @@ export function generatePermission(routes: RouteType.RouteInfo[]): PermissionNod
   return routes.flatMap(route => {
     if (route.children) {
       const children = generatePermission(route.children)
-      if (children.length > 0 && route.meta?.key) {
+      if (children.length > 0 && route.meta?.perm) {
         return [
           {
-            key: route.meta.key,
+            key: route.meta.perm,
             title: route.meta.title,
             children
           }
@@ -25,7 +25,7 @@ export function generatePermission(routes: RouteType.RouteInfo[]): PermissionNod
     if (route.meta?.perm) {
       return [
         {
-          key: route.meta.key,
+          key: route.meta.perm,
           title: route.meta.title
         }
       ]
