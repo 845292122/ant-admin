@@ -74,9 +74,12 @@ const QueryForm: React.FC<QueryFormProps> = ({ fields, onSearch, onReset, form }
         {/* {fields.length > 3 && <Col flex="auto" />} */}
 
         {/* 操作按钮（搜索、重置、展开/收起） */}
-        <Col span={expanded ? 24 : 6}>
+        <Col lg={expanded ? 24 : 6} md={expanded ? 24 : 8}>
           <Form.Item>
-            <Space style={{ display: 'flex', justifyContent: 'flex-end' }} size={6}>
+            <Space
+              style={{ display: 'flex', justifyContent: expanded ? 'flex-end' : 'flex-start' }}
+              size={6}
+            >
               <Button
                 onClick={handleReset}
                 icon={<Refresh theme="outline" size="16" fill="#333" />}
