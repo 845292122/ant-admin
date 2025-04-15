@@ -3,7 +3,6 @@ import { Down, MenuFoldOne, MenuUnfoldOne } from '@icon-park/react'
 import { Avatar, Button, Dropdown, MenuProps, message, Typography } from 'antd'
 import { createStyles } from 'antd-style'
 import { useAtom, useSetAtom } from 'jotai'
-import { RESET } from 'jotai/utils'
 import React, { useContext } from 'react'
 import { useNavigate } from 'react-router'
 import ProfileContext from '~/context/ProfileContext'
@@ -58,9 +57,9 @@ const ActionBar: React.FC = () => {
   const { openProfile } = profileContext
 
   const logout = () => {
-    setToken(RESET)
-    setAuthInfo(RESET)
-    setPerms(RESET)
+    setToken(undefined)
+    setAuthInfo(undefined)
+    setPerms([])
     navigate('/login')
     message.success('注销成功')
   }

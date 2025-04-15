@@ -18,6 +18,7 @@ declare namespace ApiType {
     }
 
     type Info = User.Info & {}
+    type Permissions = Perm.Info
   }
 
   // * 租户

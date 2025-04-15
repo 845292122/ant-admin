@@ -114,6 +114,8 @@ const AppNav: React.FC<{ collapsed: boolean }> = ({ collapsed }) => {
     }
 
     const filterMenuList = filterAndConvertMenuByPerms(BizRoutes, perms)
+    console.log(perms)
+    console.log(filterMenuList)
     setMenuList(filterMenuList)
   }, [perms])
 

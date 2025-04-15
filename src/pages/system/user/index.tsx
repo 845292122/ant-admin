@@ -8,6 +8,8 @@ import QueryForm, { QueryFormField } from '~/components/QueryForm'
 import type { TreeDataNode } from 'antd'
 import { filterChildKeys, generatePermissionByBizRoutes } from '~/utils'
 import AssignPermission from '~/components/AssignPermission'
+import { useAtomValue } from 'jotai'
+import { authJotai } from '~/store'
 
 const queryFormFields: QueryFormField[] = [
   {
@@ -34,6 +36,7 @@ const queryFormFields: QueryFormField[] = [
 
 const User: React.FC = () => {
   const [messageApi, contextHolder] = message.useMessage()
+  const authInfo = useAtomValue(authJotai.authInfoAtom)
 
   const [form] = Form.useForm()
   const [infoVisible, setInfoVisible] = useState<boolean>(false)
@@ -134,15 +137,18 @@ const User: React.FC = () => {
       type: 'input',
       span: 0
     },
-    // TODO 如果是平台管理员,添加时可以选择属于哪个租户下；租户管理员不显示
-    {
-      name: 'tenantID',
-      label: '租户',
-      type: 'select',
-      options: tenantOptions,
-      span: 24,
-      rules: [{ required: true, message: '租户不能为空' }]
-    },
+    ...(authInfo?.isPlatformAdmin
+      ? [
+          {
+            name: 'tenantID',
+            label: '租户',
+            type: 'select' as const,
+            options: tenantOptions,
+            span: 24,
+            rules: [{ required: true, message: '租户不能为空' }]
+          }
+        ]
+      : []),
     {
       name: 'nickname',
       label: '联系人',
@@ -168,7 +174,24 @@ const User: React.FC = () => {
           label: '停用',
           value: '0'
         }
-      ]
+      ],
+      rules: [{ required: true, message: '状态不能为空' }]
+    },
+    {
+      name: 'dataScope',
+      label: '数据权限',
+      type: 'select',
+      options: [
+        {
+          label: '全部数据权限',
+          value: '1'
+        },
+        {
+          label: '个人数据权限',
+          value: '2'
+        }
+      ],
+      rules: [{ required: true, message: '数据权限不能为空' }]
     },
     {
       name: 'remark',
