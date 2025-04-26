@@ -28,6 +28,7 @@ const calculateHalfCheckedKeys = (
   }, [])
 }
 
+// TODO：渲染bug
 const AssignPermission: React.FC<AssignPermissionProps> = ({
   open,
   onCancel,
